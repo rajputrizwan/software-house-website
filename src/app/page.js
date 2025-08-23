@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import LandingPage from "@/components/LandingPage";
-import LottieWC from "@/components/LottieWC";
+import LandingPage from "../components/LandingPage";
+import LottieWC from "../components/LottieWC";
 
 export default function Home({ children }) {
   const [loading, setLoading] = useState(true);
