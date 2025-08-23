@@ -2,9 +2,6 @@
 
 export default function LandingPage() {
   return (
-    <section className="flex flex-col items-center justify-center h-screen text-center">
-      {/* Footer */}
-      <Footer />
-    </section>
+    <section className="flex flex-col items-center justify-center h-screen text-center"></section>
   );
 }
