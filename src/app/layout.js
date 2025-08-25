@@ -21,7 +21,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="scroll-smooth">
       <head />
-      <body>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <Providers>
           {/* Lottie Web */}
           <Script
@@ -31,11 +33,12 @@ export default function RootLayout({ children }) {
           />
 
           {/* Page content with theme */}
-          <ThemeBodyWrapper
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
+          <ThemeBodyWrapper>
             <Navbar />
-            <main className="flex-grow">{children}</main>
+
+            {/* Add top padding for navbar height + bottom padding for footer */}
+            <main className="flex-grow pt-20 pb-24">{children}</main>
+
             <Footer />
           </ThemeBodyWrapper>
         </Providers>

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@tailwind utilities;
 
 @custom-variant dark (&:is(.dark *));
 
@@ -119,4 +120,62 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* ===============================
+   Canopy Animations (all variants)
+   =============================== */
+
+/* Horizontal: normal (leftwards) */
+@keyframes canopy-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+/* Horizontal: reverse (rightwards) */
+@keyframes canopy-x-reverse {
+  from {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Vertical: normal (upwards) */
+@keyframes canopy-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+/* Vertical: reverse (downwards) */
+@keyframes canopy-y-reverse {
+  from {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Utility classes */
+.animate-canopy-horizontal {
+  animation: canopy-x var(--duration, 20s) linear infinite;
+}
+.animate-canopy-horizontal-reverse {
+  animation: canopy-x-reverse var(--duration, 20s) linear infinite;
+}
+.animate-canopy-vertical {
+  animation: canopy-y var(--duration, 20s) linear infinite;
+}
+.animate-canopy-vertical-reverse {
+  animation: canopy-y-reverse var(--duration, 20s) linear infinite;
 }

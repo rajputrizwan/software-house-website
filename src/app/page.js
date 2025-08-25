@@ -17,5 +17,11 @@ export default function Home({ children }) {
     return <LottieWC />; // 🔹 Show animation while loading
   }
 
-  return <>{children}</>; // 🔹 Show real content after loading
+  return (
+    <>
+      <section>
+        <LandingPage />
+      </section>
+    </>
+  ); // 🔹 Show real content after loading
 }
