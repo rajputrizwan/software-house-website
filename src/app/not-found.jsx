@@ -1,6 +1,6 @@
 "use client";
 
-import LottiePlayer from "@/components/LottiePlayer";
+import LottiePlayer from "../components/LottiePlayer";
 
 export default function NotFound() {
   return (
