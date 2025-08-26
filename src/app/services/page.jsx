@@ -25,7 +25,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-// ----------- Services Data (JS only, no types) -----------
+// ----------- Services Data -----------
 const services = [
   {
     id: "core-dev",
@@ -83,11 +83,284 @@ const services = [
       },
     ],
   },
-
-  // ... keep rest of your services data unchanged
+  {
+    id: "ai",
+    title: "AI & Machine Learning",
+    icon: <Brain className="w-6 h-6 text-purple-600" />,
+    description:
+      "Empower your business with cutting-edge AI solutions — chatbots, predictive analytics, recommendation engines, and automation tools.",
+    plans: [
+      {
+        id: "ai-starter",
+        name: "AI Starter",
+        price: "$199 / month",
+        color: "from-yellow-400 to-yellow-600",
+        features: ["Basic Chatbot", "Data Processing", "Email Support"],
+      },
+      {
+        id: "ai-pro",
+        name: "AI Professional",
+        price: "$499 / month",
+        color: "from-purple-400 to-purple-600",
+        features: [
+          "Custom AI Models",
+          "Data Visualization",
+          "Priority Support",
+          "Integration with Apps",
+        ],
+      },
+      {
+        id: "ai-enterprise",
+        name: "AI Enterprise",
+        price: "Custom Quote",
+        color: "from-pink-400 to-pink-600",
+        features: [
+          "Enterprise AI Solutions",
+          "Predictive Analytics",
+          "24/7 Monitoring",
+          "On-Premise/Cloud Deployment",
+        ],
+      },
+    ],
+  },
+  {
+    id: "cloud",
+    title: "Cloud Solutions",
+    icon: <Cloud className="w-6 h-6 text-blue-600" />,
+    description:
+      "We provide cloud infrastructure, hosting, and DevOps services to ensure scalability, security, and seamless deployment.",
+    plans: [
+      {
+        id: "cloud-basic",
+        name: "Cloud Basic",
+        price: "$149 / month",
+        color: "from-blue-300 to-blue-500",
+        features: ["Shared Hosting", "99.9% Uptime", "Email Support"],
+      },
+      {
+        id: "cloud-pro",
+        name: "Cloud Pro",
+        price: "$399 / month",
+        color: "from-indigo-400 to-indigo-600",
+        features: [
+          "Dedicated Cloud Server",
+          "DevOps Support",
+          "Backup & Recovery",
+          "Priority Support",
+        ],
+      },
+      {
+        id: "cloud-enterprise",
+        name: "Cloud Enterprise",
+        price: "Custom Quote",
+        color: "from-cyan-400 to-cyan-600",
+        features: [
+          "Enterprise Cloud Hosting",
+          "Kubernetes/Docker",
+          "24/7 Support",
+          "Global Scaling",
+        ],
+      },
+    ],
+  },
+  {
+    id: "mobile",
+    title: "Mobile Development",
+    icon: <Smartphone className="w-6 h-6 text-pink-600" />,
+    description:
+      "Native and cross-platform mobile apps designed for performance, usability, and scalability.",
+    plans: [
+      {
+        id: "mobile-basic",
+        name: "Mobile Basic",
+        price: "$199 / month",
+        color: "from-pink-300 to-pink-500",
+        features: ["1 Mobile App", "Basic UI/UX", "Email Support"],
+      },
+      {
+        id: "mobile-pro",
+        name: "Mobile Pro",
+        price: "$499 / month",
+        color: "from-rose-400 to-rose-600",
+        features: [
+          "Cross-Platform Apps",
+          "Advanced Features",
+          "Priority Support",
+          "Play Store / App Store Deploy",
+        ],
+      },
+      {
+        id: "mobile-enterprise",
+        name: "Mobile Enterprise",
+        price: "Custom Quote",
+        color: "from-red-400 to-red-600",
+        features: [
+          "Enterprise Mobile Solutions",
+          "Custom API Integrations",
+          "Scalable Architecture",
+          "24/7 Support",
+        ],
+      },
+    ],
+  },
+  {
+    id: "uiux",
+    title: "UI/UX Design",
+    icon: <Layout className="w-6 h-6 text-orange-600" />,
+    description:
+      "Modern, intuitive, and user-friendly designs to ensure your product delivers an amazing user experience.",
+    plans: [
+      {
+        id: "ui-basic",
+        name: "UI Basic",
+        price: "$99 / month",
+        color: "from-orange-300 to-orange-500",
+        features: ["1 Landing Page", "Basic Wireframes", "Community Support"],
+      },
+      {
+        id: "ui-pro",
+        name: "UI Pro",
+        price: "$249 / month",
+        color: "from-amber-400 to-amber-600",
+        features: [
+          "Multi-Page Design",
+          "High-Fidelity Prototypes",
+          "Priority Support",
+        ],
+      },
+      {
+        id: "ui-enterprise",
+        name: "UI Enterprise",
+        price: "Custom Quote",
+        color: "from-yellow-400 to-yellow-600",
+        features: [
+          "Enterprise-Level Design",
+          "Custom UI/UX Systems",
+          "24/7 Design Support",
+        ],
+      },
+    ],
+  },
+  {
+    id: "support",
+    title: "IT Support & Maintenance",
+    icon: <Headphones className="w-6 h-6 text-indigo-600" />,
+    description:
+      "Reliable support and maintenance services to keep your systems running smoothly.",
+    plans: [
+      {
+        id: "support-basic",
+        name: "Support Basic",
+        price: "$79 / month",
+        color: "from-gray-300 to-gray-500",
+        features: ["Email Support", "System Monitoring", "Monthly Reports"],
+      },
+      {
+        id: "support-pro",
+        name: "Support Pro",
+        price: "$199 / month",
+        color: "from-slate-400 to-slate-600",
+        features: [
+          "Phone & Email Support",
+          "Weekly Reports",
+          "Security Patches",
+        ],
+      },
+      {
+        id: "support-enterprise",
+        name: "Support Enterprise",
+        price: "Custom Quote",
+        color: "from-gray-600 to-gray-800",
+        features: [
+          "24/7 Dedicated Support",
+          "On-Site Visits",
+          "Disaster Recovery",
+        ],
+      },
+    ],
+  },
+  {
+    id: "security",
+    title: "Cybersecurity Solutions",
+    icon: <ShieldCheck className="w-6 h-6 text-red-600" />,
+    description:
+      "Protect your business with enterprise-grade security solutions.",
+    plans: [
+      {
+        id: "security-basic",
+        name: "Security Basic",
+        price: "$149 / month",
+        color: "from-red-300 to-red-500",
+        features: [
+          "Basic Threat Protection",
+          "Firewall Setup",
+          "Email Support",
+        ],
+      },
+      {
+        id: "security-pro",
+        name: "Security Pro",
+        price: "$399 / month",
+        color: "from-red-500 to-red-700",
+        features: [
+          "Advanced Security Suite",
+          "24/7 Monitoring",
+          "Priority Support",
+        ],
+      },
+      {
+        id: "security-enterprise",
+        name: "Security Enterprise",
+        price: "Custom Quote",
+        color: "from-red-700 to-red-900",
+        features: [
+          "Enterprise-Level Security",
+          "On-Premise Audits",
+          "Incident Response Team",
+        ],
+      },
+    ],
+  },
+  {
+    id: "innovation",
+    title: "Innovation & R&D",
+    icon: <Sparkles className="w-6 h-6 text-yellow-600" />,
+    description:
+      "Turn your ideas into reality with our research and development team.",
+    plans: [
+      {
+        id: "r&d-basic",
+        name: "R&D Basic",
+        price: "$199 / month",
+        color: "from-yellow-300 to-yellow-500",
+        features: ["Idea Validation", "Prototype Design", "Email Support"],
+      },
+      {
+        id: "r&d-pro",
+        name: "R&D Pro",
+        price: "$499 / month",
+        color: "from-yellow-500 to-yellow-700",
+        features: [
+          "MVP Development",
+          "AI & Blockchain Research",
+          "Priority Support",
+        ],
+      },
+      {
+        id: "r&d-enterprise",
+        name: "R&D Enterprise",
+        price: "Custom Quote",
+        color: "from-yellow-700 to-yellow-900",
+        features: [
+          "Full-Scale R&D Team",
+          "Custom Product Development",
+          "Dedicated Innovation Manager",
+        ],
+      },
+    ],
+  },
 ];
 
-// ----------- Component -----------
 export default function ServicesPage() {
   const [activeTab, setActiveTab] = useState("core-dev");
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -106,7 +379,7 @@ export default function ServicesPage() {
 
   const handleSend = async () => {
     if (!formData.email || !formData.name) {
-      alert("⚠️ Please fill in your name and email.");
+      alert("⚠ Please fill in your name and email.");
       return;
     }
 
@@ -127,7 +400,7 @@ export default function ServicesPage() {
       }
     } catch (err) {
       console.error(err);
-      alert("⚠️ Error sending email.");
+      alert("⚠ Error sending email.");
     }
     setLoading(false);
   };
