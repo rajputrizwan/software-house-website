@@ -480,7 +480,6 @@ const services: Service[] = [
     },
 ];
 
-
 export default function ServicesPage() {
     const [activeTab, setActiveTab] = useState("core-dev");
     const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
@@ -495,16 +494,6 @@ export default function ServicesPage() {
         setSelectedPlan(plan);
         setOpen(true);
     };
-
-    // const handleSend = async () => {
-    //     await fetch("/api/send-mail", {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify({ ...formData, plan: selectedPlan }),
-    //     });
-    //     setOpen(false);
-    //     alert("✅ Confirmation email sent!");
-    // };
 
     const [loading, setLoading] = useState(false);
 
@@ -537,14 +526,14 @@ export default function ServicesPage() {
     };
 
     return (
-        <section className="w-full py-16 bg-gradient-to-b from-white to-gray-50">
+        <section className="w-full py-16 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
             <div className="max-w-6xl mx-auto px-4">
                 {/* Company Intro */}
                 <div className="text-center mb-12 mt-10">
-                    <h1 className="text-4xl font-bold mb-4 text-gray-800">
+                    <h1 className="text-4xl font-bold mb-4 text-gray-800 dark:text-white">
                         Welcome to <span className="text-blue-600">escStack</span>
                     </h1>
-                    <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                    <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                         escStack is a global software house delivering scalable, modern, and
                         innovative technology solutions across industries. We specialize in
                         web, mobile, AI, cloud, and enterprise systems.
@@ -562,15 +551,15 @@ export default function ServicesPage() {
                             <TabsTrigger
                                 key={s.id}
                                 value={s.id}
-                                className="px-4 py-2 rounded-xl text-sm font-medium data-[state=active]:bg-black data-[state=active]:text-white"
+                                className="px-4 py-2 rounded-xl text-sm font-medium 
+                                           data-[state=active]:bg-black data-[state=active]:text-white
+                                           dark:data-[state=active]:bg-white dark:data-[state=active]:text-black"
                             >
                                 {s.icon}
                                 {s.title}
                             </TabsTrigger>
                         ))}
                     </TabsList>
-
-
 
                     {services.map((s) => (
                         <TabsContent key={s.id} value={s.id}>
@@ -584,8 +573,12 @@ export default function ServicesPage() {
                                         transition={{ duration: 0.4 }}
                                     >
                                         <div className="text-center mb-8">
-                                            <h2 className="text-2xl font-semibold">{s.title}</h2>
-                                            <p className="text-gray-600 mt-2">{s.description}</p>
+                                            <h2 className="text-2xl font-semibold dark:text-white">
+                                                {s.title}
+                                            </h2>
+                                            <p className="text-gray-600 dark:text-gray-300 mt-2">
+                                                {s.description}
+                                            </p>
                                         </div>
 
                                         <div className="grid md:grid-cols-4 gap-6">
@@ -613,7 +606,7 @@ export default function ServicesPage() {
                                                             </ul>
                                                             <Button
                                                                 variant="secondary"
-                                                                className="w-full bg-white text-gray-900 font-semibold"
+                                                                className="w-full bg-white text-gray-900 font-semibold dark:bg-gray-800 dark:text-white"
                                                                 onClick={() => handleChoosePlan(plan)}
                                                             >
                                                                 Choose Plan
@@ -632,7 +625,7 @@ export default function ServicesPage() {
 
                 {/* Dialog */}
                 <Dialog open={open} onOpenChange={setOpen}>
-                    <DialogContent>
+                    <DialogContent className="dark:bg-gray-900 dark:text-white">
                         <DialogHeader>
                             <DialogTitle>
                                 Enter Details for {selectedPlan?.name} Plan
@@ -642,6 +635,7 @@ export default function ServicesPage() {
                             <div>
                                 <Label>Name</Label>
                                 <Input
+                                    className="dark:bg-gray-800 dark:text-white"
                                     value={formData.name}
                                     onChange={(e) =>
                                         setFormData({ ...formData, name: e.target.value })
@@ -652,6 +646,7 @@ export default function ServicesPage() {
                                 <Label>Email</Label>
                                 <Input
                                     type="email"
+                                    className="dark:bg-gray-800 dark:text-white"
                                     value={formData.email}
                                     onChange={(e) =>
                                         setFormData({ ...formData, email: e.target.value })
@@ -661,16 +656,13 @@ export default function ServicesPage() {
                             <div>
                                 <Label>Project Details</Label>
                                 <Textarea
+                                    className="dark:bg-gray-800 dark:text-white"
                                     value={formData.details}
                                     onChange={(e) =>
                                         setFormData({ ...formData, details: e.target.value })
                                     }
                                 />
                             </div>
-                            {/* <Button className="w-full mt-4" onClick={handleSend}>
-                                Confirm & Send
-                            </Button> */}
-
                             <Button className="w-full mt-4" onClick={handleSend} disabled={loading}>
                                 {loading ? "Sending..." : "Confirm & Send"}
                             </Button>

@@ -54,11 +54,13 @@ export default function JobsPage() {
     );
 
     return (
-        <div className="max-w-6xl mx-auto py-12 px-4 mt-10">
+        <div className="max-w-6xl mx-auto py-12 px-4 mt-10 text-gray-900 dark:text-gray-100">
             {/* Company Intro */}
             <div className="mb-12 text-center">
-                <h1 className="text-4xl font-bold text-gray-900">Careers at escStack</h1>
-                <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+                <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
+                    Careers at escStack
+                </h1>
+                <p className="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
                     At <span className="font-semibold">escStack</span>, we believe people drive innovation.
                     We’re more than a workplace—we’re a people-first community that grows stronger together.
                     Join us and shape the future of technology.
@@ -71,13 +73,13 @@ export default function JobsPage() {
             <div className="flex flex-wrap gap-4 mb-8">
                 <input
                     placeholder="Search jobs..."
-                    className="border px-4 py-2 rounded-lg flex-1"
+                    className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-4 py-2 rounded-lg flex-1"
                     onChange={(e) =>
                         setFilters({ ...filters, search: e.target.value.toLowerCase() })
                     }
                 />
                 <select
-                    className="border px-4 py-2 rounded-lg"
+                    className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-4 py-2 rounded-lg"
                     onChange={(e) => setFilters({ ...filters, location: e.target.value })}
                 >
                     <option value="">Location</option>
@@ -88,7 +90,7 @@ export default function JobsPage() {
                 </select>
 
                 <select
-                    className="border px-4 py-2 rounded-lg"
+                    className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-4 py-2 rounded-lg"
                     onChange={(e) => setFilters({ ...filters, department: e.target.value })}
                 >
                     <option value="">Department</option>
@@ -107,7 +109,7 @@ export default function JobsPage() {
                 </select>
 
                 <select
-                    className="border px-4 py-2 rounded-lg"
+                    className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-4 py-2 rounded-lg"
                     onChange={(e) => setFilters({ ...filters, type: e.target.value })}
                 >
                     <option value="">Workplace Type</option>
@@ -117,7 +119,7 @@ export default function JobsPage() {
                 </select>
 
                 <select
-                    className="border px-4 py-2 rounded-lg"
+                    className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-4 py-2 rounded-lg"
                     onChange={(e) => setFilters({ ...filters, work: e.target.value })}
                 >
                     <option value="">Work Type</option>
@@ -132,24 +134,25 @@ export default function JobsPage() {
                     filteredJobs.map((job) => (
                         <div
                             key={job.id}
-                            className="border-b pb-4 flex flex-col md:flex-row justify-between items-start md:items-center hover:bg-gray-50 transition rounded-lg px-2"
+                            className="border-b border-gray-200 dark:border-gray-700 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center hover:bg-gray-50 dark:hover:bg-gray-800 transition rounded-lg px-2"
                         >
                             <div>
                                 <Link href={`/jobs/${job.id}`}>
-                                    <h2 className="text-lg font-semibold text-green-700 cursor-pointer hover:underline">
+                                    <h2 className="text-lg font-semibold text-green-700 dark:text-green-400 cursor-pointer hover:underline">
                                         {job.title}
                                     </h2>
                                 </Link>
-                                <p className="text-sm text-gray-600">Posted {job.posted}</p>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                    Posted {job.posted}
+                                </p>
                             </div>
-                            <div className="text-sm text-gray-800 mt-2 md:mt-0">
-                                <span className="font-medium">{job.type}</span> · {job.location} ·{" "}
-                                {job.work}
+                            <div className="text-sm text-gray-800 dark:text-gray-300 mt-2 md:mt-0">
+                                <span className="font-medium">{job.type}</span> · {job.location} · {job.work}
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p className="text-gray-500">No jobs match your search.</p>
+                    <p className="text-gray-500 dark:text-gray-400">No jobs match your search.</p>
                 )}
             </div>
         </div>
