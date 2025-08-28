@@ -328,7 +328,13 @@ export default function CareersPage() {
                 </div>
 
                 {/* Description */}
-                <p className="text-white text-xl font-bold px-2 py-7 rounded-lg shadow-lg absolute top-25 text-sm text-center opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition duration-300">
+                <p
+                  className="absolute top-24 px-2 py-7 rounded-lg shadow-lg 
+               text-white text-center text-sm font-bold 
+               opacity-0 transform translate-y-4 
+               group-hover:opacity-100 group-hover:translate-y-0 
+               transition duration-300"
+                >
                   {p.desc}
                 </p>
               </motion.div>
