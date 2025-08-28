@@ -5,6 +5,7 @@ import Providers from "./providers";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ThemeBodyWrapper from "../components/ThemeBodyWrapper";
+import ClientLayoutWrapper from "../components/ClientLayoutWrapper"; // ✅ new wrapper
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -25,22 +26,19 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          {/* Lottie Web */}
           <Script
             type="module"
             src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js"
             strategy="beforeInteractive"
           />
-
-          {/* Page content with theme */}
-          <ThemeBodyWrapper>
-            <Navbar />
-
-            {/* Add top padding for navbar height + bottom padding for footer */}
-            <main className="flex-grow pt-20 pb-24">{children}</main>
-
-            <Footer />
-          </ThemeBodyWrapper>
+          {/* 🔹 Client wrapper handles loader */}
+          <ClientLayoutWrapper>
+            <ThemeBodyWrapper>
+              <Navbar />
+              <main className="flex-grow pt-20 pb-24">{children}</main>
+              <Footer />
+            </ThemeBodyWrapper>
+          </ClientLayoutWrapper>
         </Providers>
       </body>
     </html>
