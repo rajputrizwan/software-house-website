@@ -79,9 +79,9 @@ export default function Navbar() {
       icon: <HelpCircle className="w-4 h-4 mr-2" />,
     },
     {
-      href: "/pricing",
+      href: "/services",
       label: "Pricing",
-      icon: <Tag className="w-4 h-4 mr-2" />,
+      icon: <Briefcase className="w-4 h-4 mr-2" />,
     },
   ];
 

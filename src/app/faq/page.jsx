@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// ✅ FAQ List (extended for software house)
 const FAQS = [
   {
     category: "General",
@@ -34,6 +35,58 @@ const FAQS = [
     q: "Do you have an API?",
     a: "Yes, we provide a powerful REST API with comprehensive documentation.",
   },
+
+  // 🔥 Software House Specific FAQs
+  {
+    category: "Services",
+    q: "What kind of software solutions do you develop?",
+    a: "We build custom web apps, mobile apps, enterprise software, and AI-powered solutions tailored to your business needs.",
+  },
+  {
+    category: "Process",
+    q: "How do you start a new project?",
+    a: "We begin with a discovery session to understand your requirements, then provide a proposal, timeline, and development plan.",
+  },
+  {
+    category: "Process",
+    q: "Which development methodologies do you follow?",
+    a: "We primarily use Agile and Scrum, ensuring iterative development, transparency, and faster delivery.",
+  },
+  {
+    category: "Technical",
+    q: "What technologies do you specialize in?",
+    a: "We work with modern stacks including React, Next.js, Node.js, Python, Java, Flutter, and cloud platforms like AWS & Supabase.",
+  },
+  {
+    category: "Pricing",
+    q: "How do you charge for projects?",
+    a: "We offer both fixed-price and hourly models, depending on the scope and flexibility required by the client.",
+  },
+  {
+    category: "Support",
+    q: "Do you provide post-launch support and maintenance?",
+    a: "Yes, we offer ongoing support, monitoring, and upgrades to ensure your software continues to run smoothly.",
+  },
+  {
+    category: "Team",
+    q: "Can you provide dedicated developers or teams?",
+    a: "Yes, we offer staff augmentation so you can hire skilled developers or entire teams on a full-time or part-time basis.",
+  },
+  {
+    category: "Delivery",
+    q: "How long does it take to build a typical project?",
+    a: "It depends on the scope. Small apps may take 4–6 weeks, while enterprise solutions can take several months.",
+  },
+  {
+    category: "Security",
+    q: "How do you ensure software security?",
+    a: "We follow secure coding practices, regular code reviews, penetration testing, and compliance with industry standards.",
+  },
+  {
+    category: "Contracts",
+    q: "Do you sign NDAs (Non-Disclosure Agreements)?",
+    a: "Yes, we take confidentiality seriously and can sign NDAs to protect your business idea and data.",
+  },
 ];
 
 export default function FAQPage() {
@@ -51,16 +104,17 @@ export default function FAQPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted px-6 py-12 relative">
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 px-6 py-12 relative">
       <div className="max-w-4xl mx-auto text-center">
+        {/* Heading */}
         <motion.h1
-          className="text-4xl font-extrabold mb-4"
+          className="text-4xl font-extrabold mb-4 text-white"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
           Frequently Asked Questions
         </motion.h1>
-        <p className="text-muted-foreground mb-8">
+        <p className="text-gray-400 mb-8">
           Find answers to the most common questions. Can’t find what you’re
           looking for?{" "}
           <a href="/contact" className="underline hover:text-primary">
@@ -75,7 +129,7 @@ export default function FAQPage() {
             placeholder="Search questions..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1"
+            className="flex-1 bg-gray-800 border-gray-700 text-white placeholder-gray-400"
           />
         </div>
 
@@ -86,7 +140,12 @@ export default function FAQPage() {
               key={cat}
               variant={cat === category ? "default" : "outline"}
               onClick={() => setCategory(cat)}
-              className="rounded-full"
+              className={cn(
+                "rounded-full",
+                cat === category
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "border-gray-700 text-gray-300 hover:bg-gray-800"
+              )}
             >
               {cat}
             </Button>
@@ -98,16 +157,16 @@ export default function FAQPage() {
           {filtered.map((f, i) => (
             <Card
               key={i}
-              className="overflow-hidden border rounded-2xl shadow-sm"
+              className="overflow-hidden border border-gray-800 bg-gray-900 text-gray-200 rounded-2xl shadow-sm"
             >
               <button
                 onClick={() => setActive(active === i ? null : i)}
-                className="w-full flex justify-between items-center px-4 py-3 font-medium text-left"
+                className="w-full flex justify-between items-center px-4 py-3 font-medium text-left text-white"
               >
                 {f.q}
                 <ChevronDown
                   className={cn(
-                    "h-5 w-5 transition-transform",
+                    "h-5 w-5 transition-transform text-gray-400",
                     active === i && "rotate-180 text-primary"
                   )}
                 />
@@ -120,7 +179,7 @@ export default function FAQPage() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <CardContent className="px-4 pb-4 text-muted-foreground">
+                    <CardContent className="px-4 pb-4 text-gray-400">
                       {f.a}
                     </CardContent>
                   </motion.div>
@@ -130,9 +189,7 @@ export default function FAQPage() {
           ))}
 
           {filtered.length === 0 && (
-            <p className="text-muted-foreground text-center">
-              No results found.
-            </p>
+            <p className="text-gray-500 text-center">No results found.</p>
           )}
         </div>
       </div>
@@ -144,7 +201,7 @@ export default function FAQPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.5 }}
       >
-        <Card className="p-5 shadow-xl border border-primary/30 bg-gradient-to-r from-primary/90 to-primary rounded-2xl text-white">
+        <Card className="p-5 shadow-xl border border-primary/30 bg-primary text-primary-foreground rounded-2xl">
           <div className="flex items-center gap-3 mb-3">
             <HelpCircle className="h-6 w-6" />
             <h3 className="text-lg font-semibold">Still need help?</h3>

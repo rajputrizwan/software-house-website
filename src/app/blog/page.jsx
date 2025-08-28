@@ -1,313 +1,245 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Sidebar from "./_components/Sidebar";
-import BlogCard from "./_components/BlogCard";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { supabase } from "@/lib/supabaseClient";
 
-// ✅ Setup Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+const categories = [
+  "All",
+  "Development",
+  "AI & Machine Learning",
+  "Cloud Computing",
+  "Cybersecurity",
+  "UI/UX Design",
+];
 
 export default function BlogPage() {
+  const { theme } = useTheme();
+  const router = useRouter();
   const [posts, setPosts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [recent, setRecent] = useState([]);
-  const [activeCategory, setActiveCategory] = useState(null);
-  const [activeTag, setActiveTag] = useState(null);
-  const [query, setQuery] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortOrder, setSortOrder] = useState("Newest");
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const postsPerPage = 6;
 
-  const PAGE_SIZE = 6;
-
-  // 🔹 Fetch posts with filters
-  const fetchPage = async (reset = false) => {
-    setLoading(true);
-
-    let q = supabase
-      .from("posts")
-      .select("*")
-      .order("published_at", { ascending: false })
-      .range(
-        reset ? 0 : (page - 1) * PAGE_SIZE,
-        reset ? PAGE_SIZE - 1 : page * PAGE_SIZE - 1
-      );
-
-    if (activeCategory) q = q.eq("category", activeCategory);
-    if (activeTag) q = q.contains("tags", [activeTag]);
-    if (query) q = q.ilike("title", `%${query}%`);
-
-    const { data, error } = await q;
-    if (error) console.error("Error fetching posts:", error);
-
-    if (reset) {
-      setPosts(data || []);
-      setPage(1);
-    } else {
-      setPosts((prev) => [...prev, ...(data || [])]);
-    }
-
-    setHasMore(data && data.length === PAGE_SIZE);
-    setLoading(false);
-  };
-
-  // 🔹 Fetch categories, tags, and recent posts
   useEffect(() => {
-    const fetchMeta = async () => {
-      const { data: tagsData } = await supabase.from("tags_view").select("*");
-      const { data: recentData } = await supabase
-        .from("recent_posts")
-        .select("*");
-      const { data: cats } = await supabase
+    const fetchPosts = async () => {
+      const { data } = await supabase
         .from("posts")
-        .select("category")
-        .not("category", "is", null);
-
-      setTags(tagsData?.map((t) => t.tag) || []);
-      setRecent(recentData || []);
-      setCategories([...new Set(cats?.map((c) => c.category))]);
+        .select("*")
+        .order("published_at", { ascending: false });
+      setPosts(data || []);
+      setFilteredPosts(data || []);
     };
 
-    fetchMeta();
-    fetchPage(true);
+    fetchPosts();
   }, []);
 
-  // 🔹 Refetch when filters/search change
   useEffect(() => {
-    fetchPage(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTag, activeCategory, query]);
+    let tempPosts = [...posts];
+
+    if (selectedCategory !== "All") {
+      tempPosts = tempPosts.filter(
+        (post) => post.category === selectedCategory
+      );
+    }
+
+    if (sortOrder === "Oldest") {
+      tempPosts = tempPosts.reverse();
+    }
+
+    setFilteredPosts(tempPosts);
+    setPage(1);
+  }, [selectedCategory, sortOrder, posts]);
+
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  const displayedPosts = filteredPosts.slice(
+    (page - 1) * postsPerPage,
+    page * postsPerPage
+  );
+
+  // Get featured post (most recent post)
+  const featuredPost = posts.length > 0 ? posts[0] : null;
+
+  // Function to handle card click and redirect to blog detail page
+  const handleCardClick = (postSlug) => {
+    router.push(`/blog/${postSlug}`);
+  };
+
+  // Function to handle featured post click
+  const handleFeaturedPostClick = () => {
+    if (featuredPost) {
+      router.push(`/blog/${featuredPost.slug}`);
+    }
+  };
 
   return (
-    <section className="container mx-auto px-4 py-10">
-      <h1 className="text-4xl font-bold mb-6">Blog</h1>
+    <main className="max-w-6xl mx-auto px-4 py-10">
+      {/* Featured Hero */}
+      {featuredPost && (
+        <div
+          className="relative rounded-2xl overflow-hidden mb-10 bg-gradient-to-r from-blue-600 to-purple-700 dark:from-blue-800 dark:to-purple-900 cursor-pointer"
+          onClick={handleFeaturedPostClick}
+        >
+          <div className="p-8 md:p-12 lg:p-16 text-white">
+            <span className="text-sm text-blue-100">
+              {featuredPost.category}
+            </span>
+            <h1 className="text-3xl md:text-4xl font-bold mt-2">
+              {featuredPost.title}
+            </h1>
+            <p className="text-blue-100 mt-4 max-w-2xl">
+              {featuredPost.excerpt ||
+                "Read our latest insights on technology and software development."}
+            </p>
+            <p className="text-blue-200 text-sm mt-4">
+              {new Date(featuredPost.published_at).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}{" "}
+              • {featuredPost.read_time || "5 mins read"}
+            </p>
+            <Button className="mt-6 bg-white text-blue-700 hover:bg-blue-50">
+              Read Article
+            </Button>
+          </div>
+        </div>
+      )}
 
-      {/* Search */}
-      <div className="mb-8 flex gap-3">
-        <Input
-          placeholder="Search posts..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="max-w-md"
-        />
-        <Button onClick={() => fetchPage(true)} disabled={loading}>
-          Search
-        </Button>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Sidebar */}
-        <div className="lg:col-span-1">
-          <Sidebar
-            categories={categories}
-            tags={tags}
-            recent={recent}
-            activeTag={activeTag}
-            onTagClick={(tag) => setActiveTag(tag)}
-            activeCategory={activeCategory}
-            onCategoryClick={(cat) => setActiveCategory(cat)}
-          />
+      {/* Blog Filters & Sort */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+        <div className="flex gap-3 flex-wrap">
+          {categories.map((cat) => (
+            <Button
+              key={cat}
+              variant={selectedCategory === cat ? "default" : "outline"}
+              onClick={() => setSelectedCategory(cat)}
+              className="rounded-full"
+            >
+              {cat}
+            </Button>
+          ))}
         </div>
 
-        {/* Posts */}
-        <div className="lg:col-span-3">
-          {loading && posts.length === 0 ? (
-            <p className="opacity-70">Loading posts...</p>
-          ) : posts.length === 0 ? (
-            <p className="opacity-70">No posts found.</p>
-          ) : (
-            <>
-              <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {posts.map((post) => (
-                  <BlogCard key={post.id} post={post} />
-                ))}
-              </div>
+        <Select value={sortOrder} onValueChange={setSortOrder}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Newest">Newest</SelectItem>
+            <SelectItem value="Oldest">Oldest</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-              {/* Load More */}
-              {hasMore && (
-                <div className="flex justify-center mt-8">
-                  <Button onClick={() => fetchPage(false)} disabled={loading}>
-                    {loading ? "Loading..." : "Load More"}
-                  </Button>
-                </div>
-              )}
-            </>
-          )}
+      {/* Blog Grid */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {displayedPosts.map((post) => (
+          <Card
+            key={post.id}
+            className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
+            onClick={() => handleCardClick(post.slug)}
+          >
+            <div className="h-48 bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center group-hover:from-blue-500 group-hover:to-purple-600 transition-colors">
+              <span className="text-white font-semibold text-lg">
+                {post.category}
+              </span>
+            </div>
+            <CardContent className="p-4">
+              <span className="text-xs uppercase text-primary">
+                {post.category}
+              </span>
+              <h2 className="text-lg font-semibold mt-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                {post.title}
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                {new Date(post.published_at).toLocaleDateString("en-US", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}{" "}
+                • {post.read_time || "5 mins read"}
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                by {post.author || "Tech Team"}
+              </p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-10 gap-2">
+          <Button
+            variant="outline"
+            className="rounded-full"
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
+            Previous
+          </Button>
+
+          {Array.from({ length: totalPages }, (_, i) => (
+            <Button
+              key={i + 1}
+              variant={page === i + 1 ? "default" : "outline"}
+              className="rounded-full"
+              onClick={() => setPage(i + 1)}
+            >
+              {i + 1}
+            </Button>
+          ))}
+
+          <Button
+            variant="outline"
+            className="rounded-full"
+            disabled={page === totalPages}
+            onClick={() => setPage(page + 1)}
+          >
+            Next
+          </Button>
+        </div>
+      )}
+
+      {/* Bottom Banners */}
+      <div className="grid md:grid-cols-3 gap-6 mt-14">
+        <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-blue-600 to-purple-700 text-white p-6">
+          <h3 className="text-xl font-semibold">
+            Need custom software solutions?
+          </h3>
+          <p className="mt-2 text-blue-100">
+            Let our experts help you build the perfect solution
+          </p>
+          <Button className="mt-4 bg-white text-blue-700 hover:bg-blue-50">
+            Contact Us
+          </Button>
+        </div>
+        <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6 flex items-end">
+          <h3 className="text-xl font-semibold">Explore our case studies</h3>
+        </div>
+        <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-purple-600 to-blue-700 text-white p-6">
+          <h3 className="text-xl font-semibold">Subscribe to our newsletter</h3>
+          <p className="mt-2 text-blue-100">
+            Get the latest tech insights delivered to your inbox
+          </p>
+          <Button className="mt-4 bg-white text-blue-700 hover:bg-blue-50">
+            Subscribe
+          </Button>
         </div>
       </div>
-    </section>
+    </main>
   );
 }
-
-// "use client";
-
-// import { useState, useEffect, useCallback } from "react";
-// import { supabase } from "@/lib/supabaseClient";
-// import Sidebar from "./_components/Sidebar";
-// import BlogCard from "./_components/BlogCard";
-// import { motion, AnimatePresence } from "framer-motion";
-
-// const listContainer = {
-//   hidden: { opacity: 0 },
-//   visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
-// };
-// const listItem = {
-//   hidden: { opacity: 0, y: 10 },
-//   visible: { opacity: 1, y: 0 },
-// };
-
-// export default function BlogPage() {
-//   const [posts, setPosts] = useState([]);
-//   const [search, setSearch] = useState("");
-//   const [pageIndex, setPageIndex] = useState(0);
-//   const [loading, setLoading] = useState(true);
-//   const [categories, setCategories] = useState([]);
-//   const [tags, setTags] = useState([]);
-//   const [recent, setRecent] = useState([]);
-//   const PAGE_SIZE = 6;
-
-//   const fetchFilters = useCallback(async () => {
-//     // tags & categories & recent
-//     const [tagsRes, catsRes, recentRes] = await Promise.all([
-//       supabase.from("tags_view").select("tag"),
-//       supabase.from("posts").select("category").not("category", "is", null),
-//       supabase
-//         .from("posts")
-//         .select("title,slug,published_at")
-//         .order("published_at", { ascending: false })
-//         .limit(5),
-//     ]);
-
-//     if (!tagsRes.error)
-//       setTags([...new Set((tagsRes.data || []).map((t) => t.tag))]);
-//     if (!catsRes.error)
-//       setCategories(
-//         [...new Set((catsRes.data || []).map((c) => c.category))].filter(
-//           Boolean
-//         )
-//       );
-//     if (!recentRes.error) setRecent(recentRes.data || []);
-//   }, []);
-
-//   const fetchPage = useCallback(
-//     async (reset = false) => {
-//       setLoading(true);
-//       const from = reset ? 0 : pageIndex * PAGE_SIZE;
-//       const to = from + PAGE_SIZE - 1;
-//       let q = supabase
-//         .from("posts")
-//         .select("*")
-//         .order("published_at", { ascending: false })
-//         .range(from, to);
-//       if (search) q = q.ilike("title", `%${search}%`);
-//       const { data, error } = await q;
-//       if (!error) {
-//         setPosts((prev) => (reset ? data ?? [] : [...prev, ...(data ?? [])]));
-//         if ((data ?? []).length < PAGE_SIZE) {
-//           // no more
-//         }
-//         if (reset) setPageIndex(1);
-//         else setPageIndex((p) => p + 1);
-//       }
-//       setLoading(false);
-//     },
-//     [pageIndex, search]
-//   );
-
-//   useEffect(() => {
-//     fetchFilters();
-//     fetchPage(true);
-//   }, [fetchFilters, fetchPage]);
-
-//   useEffect(() => {
-//     // when search changes, reset listing
-//     const t = setTimeout(() => fetchPage(true), 400);
-//     return () => clearTimeout(t);
-//   }, [search, fetchPage]);
-
-//   return (
-//     <section className="container mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-4 gap-10">
-//       {/* Main */}
-//       <div className="lg:col-span-3">
-//         {/* Search */}
-//         <motion.div
-//           initial={{ opacity: 0, y: -8 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 0.36 }}
-//           className="mb-6"
-//         >
-//           <div className="relative">
-//             <input
-//               value={search}
-//               onChange={(e) => setSearch(e.target.value)}
-//               placeholder="Search posts, tags, or authors..."
-//               className="w-full px-5 py-3 rounded-2xl bg-slate-800 text-gray-200 placeholder-gray-500 focus:ring-1 focus:ring-blue-500 outline-none"
-//             />
-//             <div className="absolute right-3 top-3 opacity-60 text-sm">⌘K</div>
-//           </div>
-//         </motion.div>
-
-//         {/* Posts grid */}
-//         <motion.div
-//           initial="hidden"
-//           animate="visible"
-//           variants={listContainer}
-//           className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6"
-//         >
-//           <AnimatePresence>
-//             {posts.map((p) => (
-//               <motion.div
-//                 key={p.id}
-//                 layout
-//                 variants={listItem}
-//                 exit={{ opacity: 0, y: 8 }}
-//               >
-//                 <BlogCard post={p} />
-//               </motion.div>
-//             ))}
-//           </AnimatePresence>
-//         </motion.div>
-
-//         {/* Load more */}
-//         <div className="mt-10 flex justify-center">
-//           <motion.button
-//             whileTap={{ scale: 0.98 }}
-//             onClick={() => fetchPage()}
-//             className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full shadow-lg"
-//             disabled={loading}
-//           >
-//             {loading ? "Loading..." : "Load More"}
-//           </motion.button>
-//         </div>
-//       </div>
-
-//       {/* Sidebar */}
-//       <aside>
-//         <Sidebar
-//           categories={categories}
-//           tags={tags}
-//           recent={recent}
-//           onTagClick={(t) => {
-//             setSearch(t ? `#${t}` : "");
-//             setPageIndex(0);
-//             fetchPage(true);
-//           }}
-//           onCategoryClick={(c) => {
-//             setSearch(c || "");
-//             setPageIndex(0);
-//             fetchPage(true);
-//           }}
-//         />
-//       </aside>
-//     </section>
-//   );
-// }

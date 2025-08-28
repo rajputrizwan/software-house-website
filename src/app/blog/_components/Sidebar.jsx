@@ -1,15 +1,15 @@
-// components/blog/Sidebar.jsx
 "use client";
+
 import Link from "next/link";
 
 export default function Sidebar({
-  categories,
-  tags,
-  recent,
-  activeTag,
-  onTagClick,
+  categories = [],
+  tags = [],
+  recent = [],
   activeCategory,
   onCategoryClick,
+  activeTag,
+  onTagClick,
 }) {
   return (
     <aside className="space-y-8">
@@ -53,13 +53,16 @@ export default function Sidebar({
         </div>
       </section>
 
-      {/* Recent */}
+      {/* Recent Posts */}
       <section>
-        <h3 className="text-lg font-semibold mb-3">Recent</h3>
+        <h3 className="text-lg font-semibold mb-3">Recent Posts</h3>
         <ul className="space-y-2 text-sm">
           {recent.map((p) => (
             <li key={p.id}>
-              <Link className="hover:underline" href={`/blog/${p.slug}`}>
+              <Link
+                href={`/blog/${p.slug}`}
+                className="hover:underline text-gray-300"
+              >
                 {p.title}
               </Link>
               <div className="opacity-60 text-xs">

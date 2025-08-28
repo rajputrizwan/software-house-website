@@ -1,144 +1,223 @@
-// "use client";
-
-// import { useEffect, useState } from "react";
-// import { useParams } from "next/navigation";
-// import { createClient } from "@supabase/supabase-js";
-
-// // ✅ Setup Supabase client
-// const supabase = createClient(
-//   process.env.NEXT_PUBLIC_SUPABASE_URL,
-//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-// );
-
-// export default function BlogPostPage() {
-//   const { slug } = useParams();
-//   const [post, setPost] = useState(null);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     if (!slug) return;
-
-//     const fetchPost = async () => {
-//       const { data, error } = await supabase
-//         .from("posts")
-//         .select("*")
-//         .eq("slug", slug)
-//         .single();
-
-//       if (error) console.error("Error fetching post:", error);
-//       else setPost(data);
-
-//       setLoading(false);
-//     };
-
-//     fetchPost();
-//   }, [slug]);
-
-//   if (loading) return <p className="text-center mt-10">Loading post...</p>;
-//   if (!post) return <p className="text-center mt-10">Post not found.</p>;
-
-//   return (
-//     <article className="container mx-auto px-4 py-12 max-w-3xl">
-//       {/* Banner */}
-//       {post.image_url && (
-//         <img
-//           src={post.image_url}
-//           alt={post.title}
-//           className="w-full h-64 object-cover rounded-2xl mb-6"
-//         />
-//       )}
-
-//       {/* Title */}
-//       <h1 className="text-4xl font-bold mb-3">{post.title}</h1>
-//       <p className="text-gray-400 text-sm mb-6">
-//         {new Date(post.published_at).toDateString()} • {post.author}
-//       </p>
-
-//       {/* Content */}
-//       <div className="prose prose-invert max-w-none">{post.content}</div>
-//     </article>
-//   );
-// }
-
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import MarkdownRenderer from "../_components/MarkdownRenderer";
-import { motion } from "framer-motion";
 
-export default function BlogPostPage() {
-  const { slug } = useParams();
+export default function BlogDetail() {
+  const params = useParams();
+  const router = useRouter();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [relatedPosts, setRelatedPosts] = useState([]);
 
   useEffect(() => {
-    if (!slug) return;
-    (async () => {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from("posts")
-        .select("*")
-        .eq("slug", slug)
-        .single();
-      if (!error) setPost(data);
-      setLoading(false);
-    })();
-  }, [slug]);
+    const fetchPost = async () => {
+      try {
+        // Fetch main post by slug
+        const { data, error } = await supabase
+          .from("posts")
+          .select("*")
+          .eq("slug", params.slug)
+          .single();
 
-  if (loading)
-    return <p className="text-center mt-10 text-gray-400">Loading post...</p>;
-  if (!post)
-    return <p className="text-center mt-10 text-gray-400">Post not found.</p>;
+        if (error) throw error;
+        setPost(data);
+
+        // Fetch related posts
+        if (data?.category) {
+          const { data: related } = await supabase
+            .from("posts")
+            .select("*")
+            .eq("category", data.category)
+            .neq("slug", params.slug)
+            .limit(3)
+            .order("published_at", { ascending: false });
+          setRelatedPosts(related || []);
+        }
+      } catch (error) {
+        console.error("Error fetching post:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (params.slug) {
+      fetchPost();
+    }
+  }, [params.slug]);
+
+  if (loading) {
+    return (
+      <main className="max-w-4xl mx-auto px-4 py-10">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/4 mb-8"></div>
+          <div className="h-64 bg-gray-200 rounded mb-6"></div>
+          <div className="space-y-3">
+            <div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!post) {
+    return (
+      <main className="max-w-4xl mx-auto px-4 py-10">
+        <Card>
+          <CardContent className="p-8 text-center">
+            <h1 className="text-2xl font-bold mb-4">Post Not Found</h1>
+            <p>The blog post you're looking for doesn't exist.</p>
+            <Button className="mt-4" onClick={() => router.push("/blog")}>
+              Back to Blog
+            </Button>
+          </CardContent>
+        </Card>
+      </main>
+    );
+  }
 
   return (
-    <article className="container mx-auto px-6 py-12 max-w-3xl">
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+    <main className="max-w-4xl mx-auto px-4 py-10">
+      {/* Back Button */}
+      <Button
+        variant="outline"
+        className="mb-6"
+        onClick={() => router.push("/blog")}
       >
-        {post.image_url && (
+        &larr; Back to Blog
+      </Button>
+
+      {/* Article Header */}
+      <div className="mb-8">
+        <span className="text-sm text-primary font-medium uppercase">
+          {post.category}
+        </span>
+        <h1 className="text-3xl md:text-4xl font-bold mt-2">{post.title}</h1>
+        <div className="flex items-center mt-4 text-muted-foreground flex-wrap">
+          <span>
+            {new Date(post.published_at).toLocaleDateString("en-US", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </span>
+          <span className="mx-2">•</span>
+          <span>{post.read_time || "5"} min read</span>
+          <span className="mx-2">•</span>
+          <span>by {post.author || "Tech Team"}</span>
+        </div>
+      </div>
+
+      {/* Featured Image */}
+      {post.image_url ? (
+        <div className="rounded-xl overflow-hidden mb-8">
           <img
             src={post.image_url}
             alt={post.title}
-            className="w-full h-64 object-cover rounded-2xl mb-6 shadow-xl"
+            className="w-full h-64 object-cover"
           />
-        )}
+        </div>
+      ) : (
+        <div className="h-64 bg-gradient-to-r from-blue-400 to-purple-500 rounded-xl mb-8 flex items-center justify-center">
+          <span className="text-white font-semibold text-lg">
+            {post.category}
+          </span>
+        </div>
+      )}
 
-        <h1 className="text-4xl font-extrabold text-white mb-3">
-          {post.title}
-        </h1>
-        <p className="text-gray-400 text-sm mb-6">
-          {new Date(post.published_at).toLocaleDateString()} • {post.author}
-        </p>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.12 }}
-        >
+      {/* Article Content */}
+      <article className="prose prose-lg dark:prose-invert max-w-none mb-12">
+        {post.content ? (
           <MarkdownRenderer content={post.content} />
-        </motion.div>
+        ) : (
+          <div>
+            <p className="mb-4">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+              eget felis eget urna ultrices ultricies.
+            </p>
+            <p className="mb-4">
+              Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+              posuere cubilia curae; Donec velit nunc, efficitur eu lectus at.
+            </p>
+          </div>
+        )}
+      </article>
 
-        {post.tags?.length ? (
-          <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-8 flex flex-wrap gap-2"
-          >
-            {post.tags.map((t) => (
-              <span
-                key={t}
-                className="text-xs px-2 py-1 rounded-full border text-gray-200"
+      {/* Tags */}
+      {post.tags && post.tags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-8">
+          {post.tags.map((tag, index) => (
+            <span
+              key={index}
+              className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Related Posts */}
+      {relatedPosts.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {relatedPosts.map((relatedPost) => (
+              <Card
+                key={relatedPost.id}
+                className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
+                onClick={() => router.push(`/blog/${relatedPost.slug}`)}
               >
-                #{t}
-              </span>
+                <div className="h-32 bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center group-hover:from-blue-500 group-hover:to-purple-600 transition-colors">
+                  <span className="text-white font-semibold text-sm">
+                    {relatedPost.category}
+                  </span>
+                </div>
+                <CardContent className="p-4">
+                  <h3 className="font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                    {relatedPost.title}
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    {new Date(relatedPost.published_at).toLocaleDateString(
+                      "en-US",
+                      {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      }
+                    )}
+                  </p>
+                </CardContent>
+              </Card>
             ))}
-          </motion.div>
-        ) : null}
-      </motion.div>
-    </article>
+          </div>
+        </div>
+      )}
+
+      {/* Newsletter CTA */}
+      <Card className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
+        <CardContent className="p-6 text-center">
+          <h2 className="text-xl font-bold mb-2">Enjoyed this article?</h2>
+          <p className="text-muted-foreground mb-4">
+            Subscribe to our newsletter for more insights like this
+          </p>
+          <div className="flex max-w-md mx-auto gap-2">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-2 rounded-md border border-input bg-background"
+            />
+            <Button>Subscribe</Button>
+          </div>
+        </CardContent>
+      </Card>
+    </main>
   );
 }

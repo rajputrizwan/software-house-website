@@ -6,20 +6,21 @@ import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 
 /**
- * MarkdownRenderer Component
+ * MarkdownRenderer
  *
- * Safely renders Markdown content with:
- * - GitHub Flavored Markdown (tables, strikethrough, task lists, etc.)
- * - Raw HTML rendering
+ * Renders Markdown content with:
+ * - GitHub Flavored Markdown (tables, task lists, strikethrough)
+ * - Raw HTML
  * - Syntax highlighting for code blocks
  *
  * @param {Object} props
- * @param {string} props.content - The markdown content to render
+ * @param {string} props.content - Markdown content
  */
 export default function MarkdownRenderer({ content = "" }) {
   return (
     <div
-      className="prose prose-invert max-w-none prose-pre:bg-zinc-900 prose-pre:p-4 prose-pre:rounded-xl prose-img:rounded-lg prose-a:text-blue-400 hover:prose-a:text-blue-300"
+      className="prose prose-invert max-w-none prose-pre:bg-zinc-900 prose-pre:p-4 prose-pre:rounded-xl
+                 prose-img:rounded-lg prose-a:text-blue-400 hover:prose-a:text-blue-300"
       aria-label="Markdown Content"
     >
       <ReactMarkdown
