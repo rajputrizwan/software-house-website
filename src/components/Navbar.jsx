@@ -45,7 +45,11 @@ export default function Navbar() {
       label: "Services",
       icon: <Briefcase className="w-4 h-4 mr-2" />,
     },
-
+    // {
+    //   href: "/portfolio",
+    //   label: "Portfolio",
+    //   icon: <Layers className="w-4 h-4 mr-2" />,
+    // },
     {
       href: "/contact",
       label: "Contact",

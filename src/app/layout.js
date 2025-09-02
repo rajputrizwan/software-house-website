@@ -1,3 +1,4 @@
+// app/layout.js
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
@@ -5,7 +6,8 @@ import Providers from "./providers";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ThemeBodyWrapper from "../components/ThemeBodyWrapper";
-import ClientLayoutWrapper from "../components/ClientLayoutWrapper"; // ✅ new wrapper
+import ClientLayoutWrapper from "../components/ClientLayoutWrapper";
+// import { ToastProvider } from "@/components//ToastProvider";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -31,11 +33,12 @@ export default function RootLayout({ children }) {
             src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js"
             strategy="beforeInteractive"
           />
-          {/* 🔹 Client wrapper handles loader */}
           <ClientLayoutWrapper>
             <ThemeBodyWrapper>
               <Navbar />
-              <main className="flex-grow pt-20 pb-24">{children}</main>
+              {/* <ToastProvider> */}
+              <main className="flex-grow pt-16">{children}</main>
+              {/* </ToastProvider> */}
               <Footer />
             </ThemeBodyWrapper>
           </ClientLayoutWrapper>

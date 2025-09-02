@@ -1,28 +1,18 @@
-"use client"; // Required because <dotlottie-wc> is a browser component
+// Loader
+"use client"; // Required because Lottie uses browser APIs
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
-export default function LottieWC() {
-  const lottieRef = useRef(null);
-
-  useEffect(() => {
-    // Optional: manipulate the web component via JS
-    if (lottieRef.current) {
-      lottieRef.current.setAttribute("loop", "");
-      lottieRef.current.setAttribute("autoplay", "");
-    }
-  }, []);
-
+export default function LottiePlayer() {
   return (
     <div className="flex items-center justify-center w-full h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-      <dotlottie-wc
-        ref={lottieRef}
-        src="https://lottie.host/6f98e225-6761-467c-8547-05d81f1b689f/5yNwmfMMXO.lottie"
-        style={{ width: "300px", height: "300px" }}
-        speed="1"
-        autoplay
+      <DotLottieReact
+        src="https://lottie.host/4ec7a379-1de0-4ec2-a620-29214af07385/qBJvBm8hEw.lottie"
         loop
-      ></dotlottie-wc>
+        autoplay
+        style={{ width: 300, height: 300 }}
+      />
     </div>
   );
 }

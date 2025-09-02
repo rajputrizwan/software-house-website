@@ -1,9 +1,18 @@
-"use client";
+import React from "react";
+import BrandScroller from "./BrandScroller";
+import HeroSection from "./HeroSection";
+import EscStackLanding from "../components/EscStackLanding";
+import ContactSidebar from "./ContactSidebar";
 
-export default function LandingPage() {
+function LandingPage() {
   return (
-    <section className="flex flex-col items-center justify-center h-screen text-center">
-      This is the Landing Page
-    </section>
+    <div>
+      <HeroSection />
+      <BrandScroller />
+      <EscStackLanding />
+      <ContactSidebar />
+    </div>
   );
 }
+
+export default LandingPage;
