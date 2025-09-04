@@ -259,7 +259,7 @@ export default function CareersPage() {
           <Link
             href="/jobs"
             size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-xl"
+            className="hover:bg-teal-700 text-4xl"
           >
             Apply at escStack
           </Link>
