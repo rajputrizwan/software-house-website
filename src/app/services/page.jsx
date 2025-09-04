@@ -702,9 +702,9 @@ export default function ServicesPage() {
             <Button
               size="lg"
               variant="outline"
-              className="text-white border-white hover:bg-white/10"
+              className="text-blue-600 border-white hover:bg-white/10"
             >
-              <Phone className="mr-2 w-4 h-4" /> Contact Sales
+              <Phone className="mr-2 w-4 h-4" /> Contact Us
             </Button>
           </motion.div>
         </div>
