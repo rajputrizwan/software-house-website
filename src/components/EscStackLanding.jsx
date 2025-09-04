@@ -897,5 +897,3 @@ export default function EscStackLanding() {
     </main>
   );
 }
-
-// rizwan
