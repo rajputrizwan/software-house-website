@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 // shadcn/ui (assumes you've installed these)
@@ -305,6 +306,33 @@ const PRICING = [
   },
 ];
 
+const FAQ_ITEMS = [
+  {
+    id: 'q1',
+    question: 'How quickly can we kick off?',
+    answer:
+      'Most projects begin within 1–2 weeks. For urgent engagements, our fast-track squad can start discovery in 72 hours.',
+  },
+  {
+    id: 'q2',
+    question: 'Do you work with in-house teams?',
+    answer:
+      'Absolutely. We embed with your engineers, PMs, and designers or run parallel streams with clear integration points.',
+  },
+  {
+    id: 'q3',
+    question: 'How do you ensure quality?',
+    answer:
+      'We use typed codebases, automated tests, preview environments, code-review rituals, and performance/security budgets.',
+  },
+  {
+    id: 'q4',
+    question: 'What about IP and security?',
+    answer:
+      'IP is yours. We follow least-privilege access, secrets management, SSO, and can align with SOC2/HIPAA requirements.',
+  },
+];
+
 /* ------------------------------------------------------------
     Lightweight marquee for logos
   ------------------------------------------------------------ */
@@ -448,6 +476,37 @@ export default function EscStackLanding() {
   }, []);
 
   const router = useRouter();
+
+  // Testimonials carousel state
+  const [tIndex, setTIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [playing, setPlaying] = useState(true);
+  // Tech filter state
+  const [techQuery, setTechQuery] = useState("");
+  const filteredTech = TECH.filter((s) => s.toLowerCase().includes(techQuery.trim().toLowerCase()));
+  // FAQ filter & controls
+  const [faqQuery, setFaqQuery] = useState("");
+  const [openAll, setOpenAll] = useState(false);
+  const filteredFaq = FAQ_ITEMS.filter((f) => f.question.toLowerCase().includes(faqQuery.trim().toLowerCase()) || f.answer.toLowerCase().includes(faqQuery.trim().toLowerCase()));
+
+  useEffect(() => {
+    if (paused || !playing) return;
+    const id = setInterval(() => {
+      setTIndex((p) => (p + 1) % TESTIMONIALS.length);
+    }, 6000);
+    return () => clearInterval(id);
+  }, [paused, playing]);
+
+  // keyboard navigation
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === "ArrowLeft") setTIndex((p) => (p - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+      if (e.key === "ArrowRight") setTIndex((p) => (p + 1) % TESTIMONIALS.length);
+      if (e.key === " ") { setPlaying((s)=>!s); }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   // static dark surface for value-props section
   const sectionClass =
@@ -809,57 +868,156 @@ export default function EscStackLanding() {
             Modern, well-supported technologies chosen for longevity.
           </p>
         </div>
-        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3">
-          {TECH.map((t) => (
-            <div
-              key={t}
-              className="border border-gray-200 dark:border-gray-700 rounded-lg py-3 px-4 text-sm text-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition bg-white/60 dark:bg-gray-800/60 ring-1 ring-cyan-400/6"
-            >
-              {t}
+
+        {/* Live filter + improved grid */}
+        <div className="mt-8">
+          <div className="max-w-xl mx-auto flex items-center gap-3">
+            <label htmlFor="tech-search" className="sr-only">Search technologies</label>
+            <input
+              id="tech-search"
+              type="search"
+              placeholder="Search technologies, e.g. Next.js, Tailwind..."
+              className="flex-1 rounded-md border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-800/60 px-4 py-2 text-sm text-gray-800 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50"
+              onChange={(e) => setTechQuery(e.target.value)}
+              value={techQuery}
+            />
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              {filteredTech.length}/{TECH.length}
             </div>
-          ))}
+          </div>
+
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3">
+            {filteredTech.map((t) => (
+              <button
+                key={t}
+                type="button"
+                className="flex items-center gap-3 border border-gray-200 dark:border-gray-700 rounded-lg py-2 px-3 text-sm text-left text-gray-700 dark:text-gray-200 hover:shadow-md transition bg-white/60 dark:bg-gray-800/60"
+                onClick={() => router.push(`/services`)}
+              >
+                <div className="flex-shrink-0 h-8 w-8 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 text-white flex items-center justify-center font-semibold">
+                  {t.split(' ').map(p=>p[0]).slice(0,2).join('')}
+                </div>
+                <div className="truncate">{t}</div>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ------------------------------ TESTIMONIALS ----------------------------- */}
       <section className="container mx-auto px-6 md:px-10 py-16">
-        <div className="max-w-2xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-violet-400 to-fuchsia-400">
             What Clients Say
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 mt-2">
-            We measure success by outcomes and relationships.
+          <p className="text-lg text-gray-600 dark:text-gray-300 mt-3">
+            Real outcomes, measured quickly. Here’s what partners say about working with us.
           </p>
         </div>
 
-        <Tabs defaultValue="t0" className="mt-8">
-          <TabsList className="grid w-full md:w-auto grid-cols-3 bg-gray-100 dark:bg-gray-800">
-            {TESTIMONIALS.map((t, i) => (
-              <TabsTrigger
-                key={i}
-                value={`t${i}`}
-                className="text-gray-900 dark:text-white data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700"
-              >
-                {t.name.split(" ")[0]}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        <div className="mt-8">
+          <div
+            className="relative"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            onFocus={() => setPaused(true)}
+            onBlur={() => setPaused(false)}
+          >
+            {/* Side arrows overlaying the testimonial card */}
+            <button
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/6 dark:bg-gray-800/50 shadow-md"
+              aria-label="Previous testimonial"
+              onClick={() => { setTIndex((p) => (p - 1 + TESTIMONIALS.length) % TESTIMONIALS.length); setPlaying(false); }}
+            >
+              <ChevronLeft className="h-5 w-5 text-gray-900 dark:text-white" />
+            </button>
 
-          {TESTIMONIALS.map((t, i) => (
-            <TabsContent key={i} value={`t${i}`} className="mt-6">
-              <Card className="border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-                <CardContent className="p-6 md:p-10">
-                  <p className="text-xl leading-relaxed text-gray-900 dark:text-white">
-                    "{t.quote}"
-                  </p>
-                  <div className="mt-4 text-sm text-gray-600 dark:text-gray-300">
-                    — {t.name}, {t.role}
+            <button
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/6 dark:bg-gray-800/50 shadow-md"
+              aria-label="Next testimonial"
+              onClick={() => { setTIndex((p) => (p + 1) % TESTIMONIALS.length); setPlaying(false); }}
+            >
+              <ChevronRight className="h-5 w-5 text-gray-900 dark:text-white" />
+            </button>
+
+            <AnimatePresence initial={false} mode="wait">
+              {(() => {
+                // show up to 2 cards: current index and next (wrap)
+                const nextIndex = (tIndex + 1) % TESTIMONIALS.length;
+                const visible = TESTIMONIALS.length > 1 ? [TESTIMONIALS[tIndex], TESTIMONIALS[nextIndex]] : [TESTIMONIALS[tIndex]];
+                return (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {visible.map((t, col) => {
+                      // compute the absolute index for aria/keys
+                      const absIndex = (tIndex + col) % TESTIMONIALS.length;
+                      return (
+                        <motion.div
+                          key={t.id || absIndex}
+                          initial={{ opacity: 0, x: 40, scale: 0.98 }}
+                          animate={{ opacity: 1, x: 0, scale: 1 }}
+                          exit={{ opacity: 0, x: -20, scale: 0.98 }}
+                          transition={{ duration: 0.45, ease: 'easeOut' }}
+                          className="h-full"
+                          drag="x"
+                          dragConstraints={{ left: 0, right: 0 }}
+                          dragElastic={0.2}
+                          onDragEnd={(e, info) => {
+                            if (info.offset.x < -40) setTIndex((p) => (p + 1) % TESTIMONIALS.length);
+                            if (info.offset.x > 40) setTIndex((p) => (p - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+                            setPlaying(false);
+                          }}
+                        >
+                          <Card className="relative rounded-2xl bg-white/40 dark:bg-gray-800/50 border border-white/6 dark:border-gray-700 backdrop-blur-md shadow-[0_20px_60px_rgba(6,182,212,0.06)] h-full">
+                            <CardContent className="p-6 md:p-10 relative flex flex-col h-full">
+                              <div className="absolute -top-6 -left-6 text-[80px] md:text-[120px] text-white/6 pointer-events-none select-none">“</div>
+                              <div className="flex items-start gap-6 flex-1">
+                                <div className="flex-shrink-0">
+                                  <div className="h-12 w-12 md:h-16 md:w-16 rounded-full bg-gradient-to-tr from-cyan-500 to-violet-500 text-white flex items-center justify-center font-bold shadow-md">
+                                    {t.name.split(" ").map(n=>n[0]).slice(0,2).join("")}
+                                  </div>
+                                </div>
+                                <div className="flex-1">
+                                  <p className="text-xl md:text-2xl leading-relaxed text-gray-900 dark:text-white">
+                                    "{t.quote}"
+                                  </p>
+                                  <div className="mt-4 text-sm md:text-base text-gray-600 dark:text-gray-300">
+                                    — <span className="font-semibold text-gray-900 dark:text-white">{t.name}</span>, {t.role}
+                                  </div>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </motion.div>
+                      );
+                    })}
                   </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          ))}
-        </Tabs>
+                );
+              })()}
+            </AnimatePresence>
+
+            {/* play/pause removed per request */}
+          </div>
+
+          {/* Dot indicators below the card */}
+          <div className="mt-4 flex items-center justify-center gap-3">
+            {TESTIMONIALS.map((t, i) => {
+              const active = i === tIndex;
+              return (
+                <button
+                  key={i}
+                  title={active ? `Current testimonial ${i + 1}` : `Go to testimonial ${i + 1}`}
+                  aria-label={`Show testimonial ${i + 1}`}
+                  aria-current={active ? 'true' : 'false'}
+                  onClick={() => { setTIndex(i); setPlaying(false); }}
+                  className={`relative transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 rounded-full overflow-hidden ${active ? 'w-12 md:w-20 h-1.5 bg-gradient-to-r from-cyan-400 to-violet-400 shadow-md' : 'w-8 md:w-12 h-1 bg-cyan-200/30 dark:bg-white/10 border border-white/6 dark:border-gray-700/40 hover:opacity-90'}`}
+                >
+                  {/* decorative inner for semantics; visible state is background */}
+                  <span className="sr-only">{active ? 'Current testimonial' : `Go to testimonial ${i + 1}`}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </section>
 
       {/* -------------------------------- PRICING PREVIEW ------------------------ */}
@@ -924,7 +1082,7 @@ export default function EscStackLanding() {
 
       {/* -------------------------------- FAQ / ACCORDION ------------------------ */}
       <section className="container mx-auto px-6 md:px-10 py-16">
-        <div className="max-w-2xl">
+        <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
             FAQs
           </h2>
@@ -932,60 +1090,53 @@ export default function EscStackLanding() {
             The essentials—process, timelines, and collaboration.
           </p>
         </div>
+        <div className="mt-6 max-w-3xl mx-auto text-center">
+          <div className="flex items-center gap-3">
+            <label htmlFor="faq-search" className="sr-only">Search FAQs</label>
+            <input
+              id="faq-search"
+              type="search"
+              placeholder="Search questions..."
+              value={faqQuery}
+              onChange={(e) => setFaqQuery(e.target.value)}
+              className="flex-1 rounded-md border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-800/60 px-4 py-2 text-sm text-gray-800 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50"
+            />
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setOpenAll(true)}
+                className="text-sm px-3 py-1 rounded-md bg-white/60 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700"
+              >
+                Expand all
+              </button>
+              <button
+                type="button"
+                onClick={() => setOpenAll(false)}
+                className="text-sm px-3 py-1 rounded-md bg-white/60 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700"
+              >
+                Collapse all
+              </button>
+            </div>
+          </div>
 
-        <Accordion type="single" collapsible className="mt-6">
-          <AccordionItem
-            value="q1"
-            className="border-gray-200 dark:border-gray-700"
-          >
-            <AccordionTrigger className="text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300">
-              How quickly can we kick off?
-            </AccordionTrigger>
-            <AccordionContent className="text-gray-600 dark:text-gray-300">
-              Most projects begin within 1–2 weeks. For urgent engagements, our
-              fast-track squad can start discovery in 72 hours.
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem
-            value="q2"
-            className="border-gray-200 dark:border-gray-700"
-          >
-            <AccordionTrigger className="text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300">
-              Do you work with in-house teams?
-            </AccordionTrigger>
-            <AccordionContent className="text-gray-600 dark:text-gray-300">
-              Absolutely. We embed with your engineers, PMs, and designers or
-              run parallel streams with clear integration points.
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem
-            value="q3"
-            className="border-gray-200 dark:border-gray-700"
-          >
-            <AccordionTrigger className="text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300">
-              How do you ensure quality?
-            </AccordionTrigger>
-            <AccordionContent className="text-gray-600 dark:text-gray-300">
-              We use typed codebases, automated tests, preview environments,
-              code-review rituals, and performance/security budgets.
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem
-            value="q4"
-            className="border-gray-200 dark:border-gray-700"
-          >
-            <AccordionTrigger className="text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300">
-              What about IP and security?
-            </AccordionTrigger>
-            <AccordionContent className="text-gray-600 dark:text-gray-300">
-              IP is yours. We follow least-privilege access, secrets management,
-              SSO, and can align with SOC2/HIPAA requirements.
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+          <div className="mt-4 space-y-2 text-left mx-auto" style={{maxWidth: '48rem'}}>
+            {filteredFaq.map((f) => (
+              <Accordion key={f.id} type="single" collapsible defaultValue={openAll ? f.id : undefined} className="border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
+                <AccordionItem value={f.id}>
+                  <AccordionTrigger className="text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300">
+                    {f.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-gray-600 dark:text-gray-300">
+                    {f.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            ))}
+            {filteredFaq.length === 0 && (
+              <div className="text-sm text-gray-500 dark:text-gray-400">No matching FAQs.</div>
+            )}
+          </div>
+        </div>
       </section>
 
       {/* -------------------------------- FINAL CTA ------------------------------ */}
@@ -1018,10 +1169,14 @@ export default function EscStackLanding() {
               </div>
             </div>
             <div className="relative">
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1529336953121-ad3a76ffb2a7?q=80&w=1600&auto=format&fit=crop"
                 alt="Team collaboration"
                 className="rounded-xl border border-gray-200 dark:border-gray-700 object-cover w-full h-[280px]"
+                width={1600}
+                height={280}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority={false}
               />
               <div className="absolute -bottom-4 -right-4 hidden md:block">
                 <Badge className="shadow-lg gap-2 bg-cyan-600 text-white">
