@@ -188,12 +188,12 @@ export default function Navbar() {
           ))}
 
           {/* Dropdown (More) */}
-          <li className="relative" ref={dropdownRef}>
+          <li className="relative cursor-pointer" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen((s) => !s)}
               aria-haspopup="menu"
               aria-expanded={dropdownOpen}
-              className="flex items-center px-2 py-1 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white gap-1"
+              className="flex items-center px-2 py-1 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white gap-1 cursor-pointer"
             >
               More
               <ChevronDown
