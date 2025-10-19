@@ -157,7 +157,7 @@ function CountUp({ value, duration = 1000 }) {
     }
 
     requestAnimationFrame(step);
-    return () => {};
+    return () => { };
   }, [value, duration]);
 
   return <span>{display}</span>;
@@ -502,7 +502,7 @@ export default function EscStackLanding() {
     function onKey(e) {
       if (e.key === "ArrowLeft") setTIndex((p) => (p - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
       if (e.key === "ArrowRight") setTIndex((p) => (p + 1) % TESTIMONIALS.length);
-      if (e.key === " ") { setPlaying((s)=>!s); }
+      if (e.key === " ") { setPlaying((s) => !s); }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -587,7 +587,7 @@ export default function EscStackLanding() {
 
       {/* ------------------------- SERVICES SECTION ------------------------ */}
       <section className="container mx-auto px-6 md:px-10 py-16">
-  <div className="relative max-w-2xl mx-auto text-center">
+        <div className="relative max-w-2xl mx-auto text-center">
           {/* decorative neon blobs */}
           <div className="pointer-events-none absolute -top-8 -left-10 w-44 h-44 rounded-full bg-gradient-to-br from-cyan-400/30 to-indigo-400/20 blur-3xl mix-blend-screen opacity-60" />
           <div className="pointer-events-none absolute -bottom-6 -right-16 w-56 h-56 rounded-full bg-gradient-to-tr from-purple-500/20 to-cyan-400/12 blur-2xl mix-blend-overlay opacity-50" />
@@ -624,56 +624,56 @@ export default function EscStackLanding() {
                     }}
                     className="group relative h-full bg-white/60 dark:bg-gray-900/44 backdrop-blur-md border border-white/6 dark:border-gray-800/40 shadow-[0_12px_50px_rgba(14,116,144,0.06)] rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/40 motion-safe:transition-transform motion-safe:transform-gpu group-hover:motion-safe:-translate-y-1 overflow-hidden"
                   >
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center justify-center rounded-lg p-3 bg-gradient-to-tr from-cyan-50/30 to-purple-50/10 text-cyan-300 dark:text-cyan-200 shadow-sm transition-shadow group-hover:shadow-[0_30px_100px_rgba(34,211,238,0.16)] w-12 h-12 ring-1 ring-cyan-300/8 relative">
-                      <span className="sr-only">{s.title} icon</span>
-                      <div className="transform-gpu transition-transform group-hover:scale-105" aria-hidden="true">
-                        {s.icon}
+                    <CardHeader>
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-center rounded-lg p-3 bg-gradient-to-tr from-cyan-50/30 to-purple-50/10 text-cyan-300 dark:text-cyan-200 shadow-sm transition-shadow group-hover:shadow-[0_30px_100px_rgba(34,211,238,0.16)] w-12 h-12 ring-1 ring-cyan-300/8 relative">
+                          <span className="sr-only">{s.title} icon</span>
+                          <div className="transform-gpu transition-transform group-hover:scale-105" aria-hidden="true">
+                            {s.icon}
+                          </div>
+                          {/* inner glow */}
+                          <div className="pointer-events-none absolute inset-0 rounded-lg blur-[14px] opacity-60 mix-blend-screen bg-gradient-to-tr from-cyan-300/30 to-purple-400/6" />
+                        </div>
+                        <div className="flex-1">
+                          <CardTitle id={titleId} className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white">
+                            {s.title}
+                          </CardTitle>
+                          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                            {s.desc}
+                          </p>
+                        </div>
                       </div>
-                      {/* inner glow */}
-                      <div className="pointer-events-none absolute inset-0 rounded-lg blur-[14px] opacity-60 mix-blend-screen bg-gradient-to-tr from-cyan-300/30 to-purple-400/6" />
-                    </div>
-                    <div className="flex-1">
-                      <CardTitle id={titleId} className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white">
-                        {s.title}
-                      </CardTitle>
-                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                        {s.desc}
-                      </p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <ul className="grid gap-2 text-sm">
-                    {s.bullet.map((b) => (
-                      <li key={b} className="flex items-start gap-3">
-                        <span className="mt-0.5 text-cyan-400 dark:text-cyan-300">
-                          <CheckCircle2 className="h-4 w-4" />
-                        </span>
-                        <span className="text-gray-700 dark:text-gray-200 text-sm">
-                          {b}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <ul className="grid gap-2 text-sm">
+                        {s.bullet.map((b) => (
+                          <li key={b} className="flex items-start gap-3">
+                            <span className="mt-0.5 text-cyan-400 dark:text-cyan-300">
+                              <CheckCircle2 className="h-4 w-4" />
+                            </span>
+                            <span className="text-gray-700 dark:text-gray-200 text-sm">
+                              {b}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
 
-                  <div className="mt-4 border-t border-white/5 dark:border-gray-700 pt-3 flex items-center justify-between">
-                    <Link href="/services" className="text-sm text-cyan-600 hover:text-cyan-500">
-                      Learn more →
-                    </Link>
-                    <div className="flex items-center gap-2">
-                      <Link href="/contact">
-                        <Button className="bg-cyan-700 hover:bg-cyan-600 text-white shadow-[0_14px_60px_rgba(6,182,212,0.16)] ring-1 ring-cyan-500/20 focus-visible:ring-2 focus-visible:ring-cyan-400/40">
-                          Talk to us
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-                  );
-                })()}
+                      <div className="mt-4 border-t border-white/5 dark:border-gray-700 pt-3 flex items-center justify-between">
+                        <Link href="/services" className="text-sm text-cyan-600 hover:text-cyan-500">
+                          Learn more →
+                        </Link>
+                        <div className="flex items-center gap-2">
+                          <Link href="/contact">
+                            <Button className="bg-cyan-700 hover:bg-cyan-600 text-white shadow-[0_14px_60px_rgba(6,182,212,0.16)] ring-1 ring-cyan-500/20 focus-visible:ring-2 focus-visible:ring-cyan-400/40">
+                              Talk to us
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
             </motion.div>
           ))}
         </div>
@@ -895,7 +895,7 @@ export default function EscStackLanding() {
                 onClick={() => router.push(`/services`)}
               >
                 <div className="flex-shrink-0 h-8 w-8 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-500 text-white flex items-center justify-center font-semibold">
-                  {t.split(' ').map(p=>p[0]).slice(0,2).join('')}
+                  {t.split(' ').map(p => p[0]).slice(0, 2).join('')}
                 </div>
                 <div className="truncate">{t}</div>
               </button>
@@ -973,7 +973,7 @@ export default function EscStackLanding() {
                               <div className="flex items-start gap-6 flex-1">
                                 <div className="flex-shrink-0">
                                   <div className="h-12 w-12 md:h-16 md:w-16 rounded-full bg-gradient-to-tr from-cyan-500 to-violet-500 text-white flex items-center justify-center font-bold shadow-md">
-                                    {t.name.split(" ").map(n=>n[0]).slice(0,2).join("")}
+                                    {t.name.split(" ").map(n => n[0]).slice(0, 2).join("")}
                                   </div>
                                 </div>
                                 <div className="flex-1">
@@ -1119,7 +1119,7 @@ export default function EscStackLanding() {
             </div>
           </div>
 
-          <div className="mt-4 space-y-2 text-left mx-auto" style={{maxWidth: '48rem'}}>
+          <div className="mt-4 space-y-2 text-left mx-auto" style={{ maxWidth: '48rem' }}>
             {filteredFaq.map((f) => (
               <Accordion key={f.id} type="single" collapsible defaultValue={openAll ? f.id : undefined} className="border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
                 <AccordionItem value={f.id}>
