@@ -1,5 +1,5 @@
 // app/layout.js
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import Providers from "./providers";
@@ -9,10 +9,17 @@ import ThemeBodyWrapper from "../components/ThemeBodyWrapper";
 import ClientLayoutWrapper from "../components/ClientLayoutWrapper";
 // import { ToastProvider } from "@/components//ToastProvider";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-sans-stack",
   subsets: ["latin"],
+  weight: ["300", "400", "600", "700", "800"],
+  display: 'swap',
+});
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-heading-stack",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  display: 'swap',
 });
 
 export const metadata = {
@@ -28,7 +35,7 @@ export default function RootLayout({ children }) {
     >
       <head />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
       >
         <Providers>
           <Script
