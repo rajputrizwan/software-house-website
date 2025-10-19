@@ -11,7 +11,7 @@ function LandingPage() {
       <BrandScroller />
       <EscStackLanding />
       <ContactSidebar />
-      Hello Aya zHUssain working 
+      
     </div>
   );
 }
