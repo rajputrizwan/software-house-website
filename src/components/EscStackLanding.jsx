@@ -920,6 +920,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 // shadcn/ui components
 import { Button } from "@/components/ui/button";
@@ -1046,6 +1048,37 @@ const METRICS = [
   { value: "99.95%", label: "Uptime SLO" },
   { value: "24/7", label: "Support Coverage" },
 ];
+
+/* Simple numeric count-up for statistics (falls back to static if non-numeric) */
+function CountUp({ value, duration = 1000 }) {
+  const [display, setDisplay] = useState(value);
+  useEffect(() => {
+    // extract numeric portion
+    const m = String(value).match(/([0-9]+(?:\.[0-9]+)?)/);
+    if (!m) {
+      setDisplay(value);
+      return;
+    }
+    const target = parseFloat(m[1]);
+    let start = 0;
+    const startTime = performance.now();
+    const suffix = String(value).replace(m[1], "");
+
+    function step(now) {
+      const t = Math.min(1, (now - startTime) / duration);
+      const cur = start + (target - start) * t;
+      // format: if target has decimals, show one or two decimals
+      const formatted = String(target).includes('.') ? cur.toFixed(2) : Math.round(cur).toString();
+      setDisplay(formatted + suffix);
+      if (t < 1) requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+    return () => { };
+  }, [value, duration]);
+
+  return <span>{display}</span>;
+}
 
 const PROCESS = [
   {
@@ -1190,6 +1223,33 @@ const PRICING = [
   },
 ];
 
+const FAQ_ITEMS = [
+  {
+    id: 'q1',
+    question: 'How quickly can we kick off?',
+    answer:
+      'Most projects begin within 1–2 weeks. For urgent engagements, our fast-track squad can start discovery in 72 hours.',
+  },
+  {
+    id: 'q2',
+    question: 'Do you work with in-house teams?',
+    answer:
+      'Absolutely. We embed with your engineers, PMs, and designers or run parallel streams with clear integration points.',
+  },
+  {
+    id: 'q3',
+    question: 'How do you ensure quality?',
+    answer:
+      'We use typed codebases, automated tests, preview environments, code-review rituals, and performance/security budgets.',
+  },
+  {
+    id: 'q4',
+    question: 'What about IP and security?',
+    answer:
+      'IP is yours. We follow least-privilege access, secrets management, SSO, and can align with SOC2/HIPAA requirements.',
+  },
+];
+
 /* ------------------------------------------------------------
     Lightweight marquee for logos
   ------------------------------------------------------------ */
@@ -1200,15 +1260,21 @@ function LogosMarquee({ items = [] }) {
         className="flex gap-12 whitespace-nowrap animate-[marquee_24s_linear_infinite]"
         aria-label="Trusted by global clients"
       >
-        {items.concat(items).map((src, i) => (
-          <img
-            key={`${src}-${i}`}
-            src={src}
-            alt="client logo"
-            className="h-8 w-auto opacity-70 hover:opacity-100 transition"
-            loading="lazy"
-          />
-        ))}
+        {items.concat(items).map((src, i) => {
+          const file = src.split("/").pop() || src;
+          const brand = file.split(".")[0].replace(/[-_]/g, " ");
+          const altText = brand.charAt(0).toUpperCase() + brand.slice(1) + " logo";
+          return (
+            <img
+              key={`${src}-${i}`}
+              src={src}
+              alt={altText}
+              role="img"
+              className="h-8 w-auto opacity-70 hover:opacity-100 transition"
+              loading="lazy"
+            />
+          );
+        })}
       </div>
     </div>
   );
@@ -1223,15 +1289,20 @@ function CaseCarousel() {
   const prev = () => setIndex((p) => (p - 1 + CASES.length) % CASES.length);
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border backdrop-blur">
+    <div
+      className="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border backdrop-blur"
+      role="region"
+      aria-label="Case studies carousel"
+    >
       <div className="absolute inset-y-0 left-0 flex items-center pl-3 z-10">
         <Button
           variant="secondary"
           size="icon"
           onClick={prev}
           className="rounded-full"
+          aria-label="Previous case"
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-5 w-5" aria-hidden="true" />
         </Button>
       </div>
       <div className="absolute inset-y-0 right-0 flex items-center pr-3 z-10">
@@ -1240,8 +1311,9 @@ function CaseCarousel() {
           size="icon"
           onClick={next}
           className="rounded-full"
+          aria-label="Next case"
         >
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className="h-5 w-5" aria-hidden="true" />
         </Button>
       </div>
 
@@ -1263,11 +1335,11 @@ function CaseCarousel() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-900/40 to-transparent" />
             </div>
-            <div className="p-8 md:p-10 flex flex-col justify-center">
+            <div className="p-8 md:p-10 flex flex-col justify-center" aria-live="polite" aria-atomic="true">
               <div className="flex items-center gap-3 mb-2">
                 <img
                   src={CASES[index].logo}
-                  alt=""
+                  alt={`${CASES[index].title} logo`}
                   className="h-6 w-auto opacity-80"
                 />
                 <Badge variant="secondary">Case Study</Badge>
@@ -1289,7 +1361,7 @@ function CaseCarousel() {
                 <Link href="/contact">
                   <Button>
                     View details
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                   </Button>
                 </Link>
               </div>
@@ -1316,6 +1388,43 @@ export default function EscStackLanding() {
     v.addEventListener("canplay", onCanPlay);
     return () => v.removeEventListener("canplay", onCanPlay);
   }, []);
+
+  const router = useRouter();
+
+  // Testimonials carousel state
+  const [tIndex, setTIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [playing, setPlaying] = useState(true);
+  // Tech filter state
+  const [techQuery, setTechQuery] = useState("");
+  const filteredTech = TECH.filter((s) => s.toLowerCase().includes(techQuery.trim().toLowerCase()));
+  // FAQ filter & controls
+  const [faqQuery, setFaqQuery] = useState("");
+  const [openAll, setOpenAll] = useState(false);
+  const filteredFaq = FAQ_ITEMS.filter((f) => f.question.toLowerCase().includes(faqQuery.trim().toLowerCase()) || f.answer.toLowerCase().includes(faqQuery.trim().toLowerCase()));
+
+  useEffect(() => {
+    if (paused || !playing) return;
+    const id = setInterval(() => {
+      setTIndex((p) => (p + 1) % TESTIMONIALS.length);
+    }, 6000);
+    return () => clearInterval(id);
+  }, [paused, playing]);
+
+  // keyboard navigation
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === "ArrowLeft") setTIndex((p) => (p - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+      if (e.key === "ArrowRight") setTIndex((p) => (p + 1) % TESTIMONIALS.length);
+      if (e.key === " ") { setPlaying((s) => !s); }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // static dark surface for value-props section
+  const sectionClass =
+    "container mx-auto px-6 md:px-10 py-16 bg-gradient-to-b from-transparent to-black/6 dark:from-transparent dark:to-black/30 rounded-2xl";
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
@@ -1412,7 +1521,9 @@ export default function EscStackLanding() {
         </div> */}
       </section>
       {/* ----------------------------- VALUE PROPS ----------------------------- */}
-      <section className="container mx-auto px-6 md:px-10 py-16">
+      <section className={sectionClass}>
+        {/* Surface toggle removed; using static dark surface for consistency */}
+
         <motion.div
           {...fadeUp()}
           className="grid md:grid-cols-3 gap-6"
@@ -1423,80 +1534,151 @@ export default function EscStackLanding() {
         >
           {[
             {
-              icon: <Telescope className="h-6 w-6" />,
+              icon: <Telescope className="h-6 w-6" aria-hidden="true" />,
               title: "Outcome-Focused",
               body: "We align on measurable business outcomes, not just outputs—your KPIs drive our roadmap.",
             },
             {
-              icon: <Cpu className="h-6 w-6" />,
+              icon: <Cpu className="h-6 w-6" aria-hidden="true" />,
               title: "Engineering Excellence",
               body: "Battle-tested patterns, performance budgets, and observability baked into every build.",
             },
             {
-              icon: <Globe2 className="h-6 w-6" />,
+              icon: <Globe2 className="h-6 w-6" aria-hidden="true" />,
               title: "Global Delivery",
               body: "Follow-the-sun coverage, distributed pods, and time-zone friendly collaboration.",
             },
           ].map((v, i) => (
             <Card
+              as="article"
+              aria-roledescription="feature"
               key={i}
-              className="border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
+              className="relative overflow-hidden border border-transparent bg-gradient-to-br from-white/30 to-white/10 dark:from-gray-800/50 dark:to-gray-800/30 backdrop-blur-md p-0 rounded-2xl hover:-translate-y-2 transform-gpu transition will-change-transform duration-300"
             >
-              <CardHeader className="flex flex-row items-center gap-3">
-                <div className="rounded-lg bg-blue-100 dark:bg-blue-900/30 p-2 text-blue-600 dark:text-blue-400">
-                  {v.icon}
+              {/* cyan accent bar */}
+              <div className="absolute left-0 top-0 h-full w-1 bg-cyan-400/80" aria-hidden="true" />
+
+              <div className="p-6 md:p-8">
+                <div className="flex items-start gap-4">
+                  <div className="rounded-lg bg-gradient-to-tr from-cyan-50/60 to-cyan-100/40 p-3 text-cyan-400 dark:text-cyan-300 drop-shadow-[0_8px_30px_rgba(6,182,212,0.06)]">
+                    {v.icon}
+                  </div>
+                  <div className="flex-1">
+                    <CardTitle className="text-lg md:text-xl font-semibold text-cyan-400 dark:text-cyan-300">
+                      {v.title}
+                    </CardTitle>
+                    <CardContent className="p-0 mt-2">
+                      <p className="text-sm md:text-base text-gray-600 dark:text-gray-300">
+                        {v.body}
+                      </p>
+                    </CardContent>
+                  </div>
                 </div>
-                <CardTitle className="text-xl text-gray-900 dark:text-white">
-                  {v.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 dark:text-gray-300">{v.body}</p>
-              </CardContent>
+              </div>
             </Card>
           ))}
         </motion.div>
+        {/* small CTA row */}
+        <div className="mt-6 flex items-center justify-between gap-4">
+          <div className="text-sm text-gray-600 dark:text-gray-300">Ready to discuss outcomes? We’ll map a pragmatic plan.</div>
+          <div>
+            <Link href="/contact">
+              <Button className="bg-cyan-600 hover:bg-cyan-500 text-white ring-1 ring-cyan-400/10 shadow-[0_10px_40px_rgba(6,182,212,0.08)]">
+                Book a free consult
+              </Button>
+            </Link>
+          </div>
+        </div>
       </section>
       {/* ------------------------- SERVICES SECTION ------------------------ */}
       <section className="container mx-auto px-6 md:px-10 py-16">
-        <div className="max-w-2xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-            What We Do
+        <div className="relative max-w-2xl mx-auto text-center">
+          {/* decorative neon blobs */}
+          <div className="pointer-events-none absolute -top-8 -left-10 w-44 h-44 rounded-full bg-gradient-to-br from-cyan-400/30 to-indigo-400/20 blur-3xl mix-blend-screen opacity-60" />
+          <div className="pointer-events-none absolute -bottom-6 -right-16 w-56 h-56 rounded-full bg-gradient-to-tr from-purple-500/20 to-cyan-400/12 blur-2xl mix-blend-overlay opacity-50" />
+
+          <h2 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-teal-300 leading-snug">
+            Product teams that ship impact
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mt-2">
-            End-to-end product delivery or embedded squads—choose the model that
-            suits your pace.
+          <p className="text-lg text-gray-700 dark:text-gray-300 mt-3 mx-auto max-w-2xl">
+            Senior pods, platform engineering, and AI integrations—tailored to
+            move your product from prototype to scale with measurable outcomes.
           </p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
           {SERVICES.map((s, i) => (
             <motion.div key={s.title} {...fadeUp(i * 0.05)}>
-              <Card className="h-full bg-white dark:bg-gray-800 shadow-md rounded-xl border-gray-200 dark:border-gray-700">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="text-blue-600 dark:text-blue-400">
-                      {s.icon}
-                    </div>
-                    <CardTitle className="text-xl text-blue-600 dark:text-blue-400">
-                      {s.title}
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-gray-600 dark:text-gray-300">{s.desc}</p>
-                  <ul className="space-y-2 text-sm">
-                    {s.bullet.map((b) => (
-                      <li key={b} className="flex items-start gap-2">
-                        <CheckCircle2 className="h-4 w-4 mt-0.5 text-blue-600 dark:text-blue-400" />
-                        <span className="text-gray-600 dark:text-gray-300">
-                          {b}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+              {(() => {
+                const titleId = `service-${i}-title`;
+                return (
+                  <Card
+                    role="article"
+                    aria-labelledby={titleId}
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      // allow Enter / Space to activate primary action unless an interactive element is focused
+                      const k = e.key;
+                      if (k === "Enter" || k === " ") {
+                        const tag = (e.target && e.target.tagName) || "";
+                        if (!["BUTTON", "A", "INPUT", "TEXTAREA", "SELECT"].includes(tag)) {
+                          e.preventDefault();
+                          router.push("/contact");
+                        }
+                      }
+                    }}
+                    className="group relative h-full bg-white/60 dark:bg-gray-900/44 backdrop-blur-md border border-white/6 dark:border-gray-800/40 shadow-[0_12px_50px_rgba(14,116,144,0.06)] rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/40 motion-safe:transition-transform motion-safe:transform-gpu group-hover:motion-safe:-translate-y-1 overflow-hidden"
+                  >
+                    <CardHeader>
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-center rounded-lg p-3 bg-gradient-to-tr from-cyan-50/30 to-purple-50/10 text-cyan-300 dark:text-cyan-200 shadow-sm transition-shadow group-hover:shadow-[0_30px_100px_rgba(34,211,238,0.16)] w-12 h-12 ring-1 ring-cyan-300/8 relative">
+                          <span className="sr-only">{s.title} icon</span>
+                          <div className="transform-gpu transition-transform group-hover:scale-105" aria-hidden="true">
+                            {s.icon}
+                          </div>
+                          {/* inner glow */}
+                          <div className="pointer-events-none absolute inset-0 rounded-lg blur-[14px] opacity-60 mix-blend-screen bg-gradient-to-tr from-cyan-300/30 to-purple-400/6" />
+                        </div>
+                        <div className="flex-1">
+                          <CardTitle id={titleId} className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white">
+                            {s.title}
+                          </CardTitle>
+                          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                            {s.desc}
+                          </p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <ul className="grid gap-2 text-sm">
+                        {s.bullet.map((b) => (
+                          <li key={b} className="flex items-start gap-3">
+                            <span className="mt-0.5 text-cyan-400 dark:text-cyan-300">
+                              <CheckCircle2 className="h-4 w-4" />
+                            </span>
+                            <span className="text-gray-700 dark:text-gray-200 text-sm">
+                              {b}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="mt-4 border-t border-white/5 dark:border-gray-700 pt-3 flex items-center justify-between">
+                        <Link href="/services" className="text-sm text-cyan-600 hover:text-cyan-500">
+                          Learn more →
+                        </Link>
+                        <div className="flex items-center gap-2">
+                          <Link href="/contact">
+                            <Button className="bg-cyan-700 hover:bg-cyan-600 text-white shadow-[0_14px_60px_rgba(6,182,212,0.16)] ring-1 ring-cyan-500/20 focus-visible:ring-2 focus-visible:ring-cyan-400/40">
+                              Talk to us
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
             </motion.div>
           ))}
         </div>
@@ -1597,46 +1779,62 @@ export default function EscStackLanding() {
         </div>
       </section>
       {/* -------------------------------- METRICS -------------------------------- */}
-      <section className="container mx-auto px-6 md:px-10 py-16">
-        <Card className="border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-          <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 md:p-10">
-            {METRICS.map((m) => (
-              <div key={m.label} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                  {m.value}
-                </div>
-                <div className="text-gray-600 dark:text-gray-300 mt-1">
-                  {m.label}
-                </div>
-              </div>
-            ))}
+      <section className="container mx-auto px-6 md:px-10 py-16" aria-label="Key statistics">
+        <Card className="border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/60 backdrop-blur-md">
+          <CardContent className="p-6 md:p-10">
+            <dl className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {METRICS.map((m, i) => (
+                <motion.div key={m.label} {...fadeUp(i * 0.04)} className="text-center" role="group" aria-labelledby={`metric-${i}-label`}>
+                  <dt id={`metric-${i}-label`} className="sr-only">{m.label}</dt>
+                  <dd className="text-2xl md:text-3xl font-extrabold">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-fuchsia-500 to-pink-500 drop-shadow-[0_12px_30px_rgba(139,92,246,0.12)]">
+                      <CountUp value={m.value} duration={900} />
+                    </span>
+                  </dd>
+                  <div className="text-sm md:text-base text-gray-600 dark:text-gray-300 mt-2" aria-hidden="false">
+                    {m.label}
+                  </div>
+                  <div className="mx-auto mt-3 h-0.5 w-14 rounded-full bg-gradient-to-r from-violet-400 to-pink-400 opacity-90" aria-hidden="true" />
+                </motion.div>
+              ))}
+            </dl>
           </CardContent>
         </Card>
       </section>
       {/* -------------------------------- PROCESS -------------------------------- */}
       <section className="container mx-auto px-6 md:px-10 py-16">
-        <div className="max-w-2xl">
+        <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
             How We Deliver
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 mt-2">
-            Transparent, iterative, and measurable—so you always know what's
-            next.
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mt-3">
+            We run short, measurable cycles so you see value fast and with predictable risk.
           </p>
         </div>
 
         <div className="mt-8 grid md:grid-cols-4 gap-6">
           {PROCESS.map((p, i) => (
             <motion.div key={p.step} {...fadeUp(i * 0.05)}>
-              <Card className="h-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-                <CardHeader>
-                  <Badge variant="secondary">Step {p.step}</Badge>
-                  <CardTitle className="mt-2 text-gray-900 dark:text-white">
-                    {p.title}
-                  </CardTitle>
+              <Card className="relative overflow-visible h-full border border-white/6 dark:border-gray-800/40 bg-white/60 dark:bg-gray-900/50 backdrop-blur-md rounded-2xl focus-within:ring-2 focus-within:ring-violet-400/30 transition-transform hover:-translate-y-1">
+                {/* diagonal ribbon with step number (responsive). Keep an sr-only label for screen readers. */}
+                <div className="absolute -top-3 left-3 -rotate-12 md:-top-4 md:left-4 md:-rotate-12 z-20">
+                  <span className="inline-flex items-center bg-gradient-to-tr from-violet-500 to-fuchsia-600 text-white text-sm md:text-base font-extrabold px-2 md:px-3 py-0.5 md:py-1 rounded-md shadow-lg ring-1 ring-white/30 border border-white/10">
+                    <span className="sr-only">Step </span>
+                    <span aria-hidden="true">{p.step}</span>
+                  </span>
+                </div>
+                <CardHeader className="items-start gap-4">
+                  <div className="flex-1">
+                    <CardTitle className="text-lg text-gray-900 dark:text-white">
+                      {p.title}
+                    </CardTitle>
+                    <div className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                      {p.copy}
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600 dark:text-gray-300">{p.copy}</p>
+                  {/* hint removed per request */}
                 </CardContent>
               </Card>
             </motion.div>
@@ -1877,7 +2075,7 @@ export default function EscStackLanding() {
                   <ul className="space-y-2 mt-4">
                     {tier.features.map((f) => (
                       <li key={f} className="flex items-start gap-2">
-                        <CheckCircle2 className="h-4 w-4 mt-0.5 text-blue-600 dark:text-blue-400" />
+                        <CheckCircle2 className="h-4 w-4 mt-0.5 text-cyan-400 dark:text-cyan-300 drop-shadow-[0_6px_16px_rgba(6,182,212,0.06)]" />
                         <span className="text-gray-600 dark:text-gray-300">
                           {f}
                         </span>
@@ -1897,7 +2095,66 @@ export default function EscStackLanding() {
           ))}
         </div>
       </section>
-      //{" "} */}
+
+      {/* -------------------------------- FAQ / ACCORDION ------------------------ */}
+      <section className="container mx-auto px-6 md:px-10 py-16">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+            FAQs
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 mt-2">
+            The essentials—process, timelines, and collaboration.
+          </p>
+        </div>
+        <div className="mt-6 max-w-3xl mx-auto text-center">
+          <div className="flex items-center gap-3">
+            <label htmlFor="faq-search" className="sr-only">Search FAQs</label>
+            <input
+              id="faq-search"
+              type="search"
+              placeholder="Search questions..."
+              value={faqQuery}
+              onChange={(e) => setFaqQuery(e.target.value)}
+              className="flex-1 rounded-md border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-800/60 px-4 py-2 text-sm text-gray-800 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50"
+            />
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setOpenAll(true)}
+                className="text-sm px-3 py-1 rounded-md bg-white/60 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700"
+              >
+                Expand all
+              </button>
+              <button
+                type="button"
+                onClick={() => setOpenAll(false)}
+                className="text-sm px-3 py-1 rounded-md bg-white/60 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700"
+              >
+                Collapse all
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-4 space-y-2 text-left mx-auto" style={{ maxWidth: '48rem' }}>
+            {filteredFaq.map((f) => (
+              <Accordion key={f.id} type="single" collapsible defaultValue={openAll ? f.id : undefined} className="border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
+                <AccordionItem value={f.id}>
+                  <AccordionTrigger className="text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300">
+                    {f.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-gray-600 dark:text-gray-300">
+                    {f.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            ))}
+            {filteredFaq.length === 0 && (
+              <div className="text-sm text-gray-500 dark:text-gray-400">No matching FAQs.</div>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* -------------------------------- FINAL CTA ------------------------------ */}
       <section className="container mx-auto px-6 md:px-10 py-16">
         <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gradient-to-br from-gray-100/40 via-white to-gray-100/30 dark:from-gray-800/40 dark:via-gray-900 dark:to-gray-800/30 p-8 md:p-12">
@@ -1915,8 +2172,8 @@ export default function EscStackLanding() {
               </p>
               <div className="mt-6 flex gap-3">
                 <Link href="/contact">
-                  <Button size="lg" className="gap-2">
-                    Discuss your idea
+                  <Button size="lg" className="gap-2 bg-cyan-600 hover:bg-cyan-500 text-white shadow-[0_12px_48px_rgba(6,182,212,0.12)] ring-1 ring-cyan-400/10">
+                    Book a discovery call
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
@@ -1928,14 +2185,18 @@ export default function EscStackLanding() {
               </div>
             </div>
             <div className="relative">
-              <img
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&q=80&w=1600&auto=format&fit=crop"
+              <Image
+                src="https://images.unsplash.com/photo-1529336953121-ad3a76ffb2a7?q=80&w=1600&auto=format&fit=crop"
                 alt="Team collaboration"
                 className="rounded-xl border border-gray-200 dark:border-gray-700 object-cover w-full h-[280px]"
+                width={1600}
+                height={280}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority={false}
               />
 
               <div className="absolute -bottom-4 -right-4 hidden md:block">
-                <Badge className="shadow-lg gap-2 bg-blue-600 text-white">
+                <Badge className="shadow-lg gap-2 bg-cyan-600 text-white">
                   <Award className="h-4 w-4" />
                   5★ client rating
                 </Badge>
