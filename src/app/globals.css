@@ -1,5 +1,4 @@
-/* Fonts: Inter for body, Space Grotesk for headings (futuristic feel) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;600;700&display=swap');
+/* Fonts are loaded via next/font in app/layout.js for better performance and preloading */
 @import "tailwindcss";
 @import "tw-animate-css";
 @tailwind utilities;
