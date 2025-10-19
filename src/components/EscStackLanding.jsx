@@ -1322,8 +1322,8 @@ export default function EscStackLanding() {
       {/* ----------------------------- HERO SECTION ----------------------------- */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-transparent to-purple-600/10" />
-        <div className="container mx-auto px-6 md:px-10 pt-32 pb-20 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
+        <div className="container flex gap-20 mx-auto px-6 md:px-10 pt-12 pb-20 relative z-10">
+          <div className="max-w-4xl flex-1 mx-auto pt-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1384,7 +1384,7 @@ export default function EscStackLanding() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="mt-16 max-w-6xl mx-auto rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl"
+            className="mt-16 flex-[2] max-w-6xl mx-auto rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl"
           >
             <div className="relative aspect-video bg-gray-900 flex items-center justify-center">
               <div className="absolute inset-0 bg-gradient-to-tr from-blue-700/20 to-purple-700/20" />
