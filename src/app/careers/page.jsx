@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, FileText, Briefcase, Rocket } from "lucide-react";
 import Link from "next/link";
+import CultureBenefit from "../../components/CultureBenefit"
 
 export default function CareersPage() {
   const [scrollY, setScrollY] = useState(0);
@@ -100,18 +101,18 @@ export default function CareersPage() {
     },
   ];
 
-  const culturalImages = [
-    "https://images.unsplash.com/photo-1595152772835-219674b2a8a0",
-    "https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5",
-    "https://images.unsplash.com/photo-1526403229177-77dd5200e6c8",
-    "https://media.istockphoto.com/id/1363627613/photo/multiracial-group-of-young-friends-bonding-outdoors.webp?a=1&b=1&s=612x612&w=0&k=20&c=BhCjKy55MkViSTYaB_ormQkz32IINj4p7K9DMR4BHuE=",
-    "https://images.unsplash.com/photo-1533090161767-e6ffed986c88",
-    "https://images.unsplash.com/photo-1551434678-21f438bdc338",
-    "https://images.unsplash.com/photo-1515204237801-2e0a7d2bb1cf",
-    "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
-    "https://images.unsplash.com/photo-1587620931287-584f3c89c6c2",
-    "https://images.unsplash.com/photo-1590650046871-72f53ce9c6e1",
-  ];
+  // const culturalImages = [
+  //   "https://images.unsplash.com/photo-1595152772835-219674b2a8a0",
+  //   "https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5",
+  //   "https://images.unsplash.com/photo-1526403229177-77dd5200e6c8",
+  //   "https://media.istockphoto.com/id/1363627613/photo/multiracial-group-of-young-friends-bonding-outdoors.webp?a=1&b=1&s=612x612&w=0&k=20&c=BhCjKy55MkViSTYaB_ormQkz32IINj4p7K9DMR4BHuE=",
+  //   "https://images.unsplash.com/photo-1533090161767-e6ffed986c88",
+  //   "https://images.unsplash.com/photo-1551434678-21f438bdc338",
+  //   "https://images.unsplash.com/photo-1515204237801-2e0a7d2bb1cf",
+  //   "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
+  //   "https://images.unsplash.com/photo-1587620931287-584f3c89c6c2",
+  //   "https://images.unsplash.com/photo-1590650046871-72f53ce9c6e1",
+  // ];
 
   const InfiniteScrollRow = ({ images, direction = "left", speed = 0.5 }) => {
     const containerRef = useRef(null);
@@ -165,69 +166,69 @@ export default function CareersPage() {
     );
   };
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const benefits = [
-    {
-      title: "Fuel Allowance",
-      image:
-        "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Outpatient (OPD) & Inpatient (IPD) Benefits",
-      image:
-        "https://images.unsplash.com/photo-1588776814546-76e7e0db0f03?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Workation Opportunities",
-      image:
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "World-Class Gyms",
-      image:
-        "https://images.unsplash.com/photo-1554284126-18ec4dbe2a8b?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Exclusive Salons",
-      image:
-        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Work from Home Options",
-      image:
-        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Paid Leaves",
-      image:
-        "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Skill Development Programs",
-      image:
-        "https://images.unsplash.com/photo-1518081461907-6b896f96e39d?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Performance Bonuses",
-      image:
-        "https://images.unsplash.com/photo-1526378720394-51b56c8a3a38?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Tech Allowances",
-      image:
-        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Diverse Work Culture",
-      image:
-        "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
-    },
-    {
-      title: "Health and Wellness Programs",
-      image:
-        "https://images.unsplash.com/photo-1556910103-1db64c9f0f9f?auto=format&fit=crop&w=800&q=80",
-    },
-  ];
+  // const [activeIndex, setActiveIndex] = useState(0);
+  // const benefits = [
+  //   {
+  //     title: "Fuel Allowance",
+  //     image:
+  //       "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=800&q=80",
+  //   },
+  //   {
+  //     title: "Outpatient (OPD) & Inpatient (IPD) Benefits",
+  //     image:
+  //       "https://images.unsplash.com/photo-1588776814546-76e7e0db0f03?auto=format&fit=crop&w=800&q=80",
+  //   },
+  //   {
+  //     title: "Workation Opportunities",
+  //     image:
+  //       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+  //   },
+  //   {
+  //     title: "World-Class Gyms",
+  //     image:
+  //       "https://images.unsplash.com/photo-1554284126-18ec4dbe2a8b?auto=format&fit=crop&w=800&q=80",
+  //   },
+  //   {
+  //     title: "Exclusive Salons",
+  //     image:
+  //       "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=800&q=80",
+  //   },
+  //   {
+  //     title: "Work from Home Options",
+  //     image:
+  //       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+  //   },
+  //   {
+  //     title: "Paid Leaves",
+  //     image:
+  //       "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
+  //   },
+  //   {
+  //     title: "Skill Development Programs",
+  //     image:
+  //       "https://images.unsplash.com/photo-1518081461907-6b896f96e39d?auto=format&fit=crop&w=800&q=80",
+  //   },
+  //   {
+  //     title: "Performance Bonuses",
+  //     image:
+  //       "https://images.unsplash.com/photo-1526378720394-51b56c8a3a38?auto=format&fit=crop&w=800&q=80",
+  //   },
+  //   {
+  //     title: "Tech Allowances",
+  //     image:
+  //       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+  //   },
+  //   {
+  //     title: "Diverse Work Culture",
+  //     image:
+  //       "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
+  //   },
+  //   {
+  //     title: "Health and Wellness Programs",
+  //     image:
+  //       "https://images.unsplash.com/photo-1556910103-1db64c9f0f9f?auto=format&fit=crop&w=800&q=80",
+  //   },
+  // ];
 
   return (
     <div className="w-full">
@@ -404,7 +405,7 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* 🎉 Culture & Lifestyle */}
+      {/* 🎉 Culture & Lifestyle
       <section className="py-20 bg-black dark:bg-gray-800 text-white">
         <div className="text-center mb-10 px-4">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
@@ -418,16 +419,16 @@ export default function CareersPage() {
 
         <div className="space-y-6">
           {/* Top row: Left to Right */}
-          <InfiniteScrollRow images={culturalImages} direction="left" />
+          {/* <InfiniteScrollRow images={culturalImages} direction="left" /> */}
 
           {/* Bottom row: Right to Left */}
-          <InfiniteScrollRow images={culturalImages} direction="right" />
-        </div>
-      </section>
+          {/* <InfiniteScrollRow images={culturalImages} direction="right" /> */}
+        {/* </div>
+      </section> */}
 
       {/* 🎯 Benefits Section */}
-      <section className="max-w mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col lg:flex-row items-center gap-10 bg-black dark:bg-gray-900 text-white shadow-lg">
-        {/* Left Content */}
+      {/* <section className="max-w mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col lg:flex-row items-center gap-10 bg-black dark:bg-gray-900 text-white shadow-lg">
+        Left Content
         <div className="flex-1 text-center lg:text-left">
           <h5 className="text-xs sm:text-sm uppercase font-semibold tracking-widest mb-2 text-blue-400">
             Benefits
@@ -452,10 +453,10 @@ export default function CareersPage() {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
 
         {/* Right Image */}
-        <div className="flex-1 max-w-md rounded-lg overflow-hidden shadow-lg border-4 border-blue-600">
+        {/* <div className="flex-1 max-w-md rounded-lg overflow-hidden shadow-lg border-4 border-blue-600">
           <img
             src={benefits[activeIndex].image}
             alt={benefits[activeIndex].title}
@@ -463,7 +464,9 @@ export default function CareersPage() {
             key={benefits[activeIndex].image} // Force img reload on change
           />
         </div>
-      </section>
+      </section> */} 
+
+    <CultureBenefit/>
     </div>
   );
 }
