@@ -233,7 +233,7 @@ export default function CareersPage() {
   return (
     <div className="w-full">
       {/* Hero Header */}
-      <motion.header
+      {/* <motion.header
         className="relative flex items-center justify-center text-center text-white dark:text-white"
         style={{ height: headerHeight }}
       >
@@ -263,6 +263,44 @@ export default function CareersPage() {
             className="hover:bg-teal-700 text-4xl"
           >
             Apply at escStack
+          </Link>
+        </motion.div>
+      </motion.header> */}
+      <motion.header
+        className="relative flex items-center justify-center text-center text-white dark:text-white"
+        style={{ height: headerHeight }}
+      >
+        <img
+          src="https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83d61/675285d33bee2c4c0822e50a_Careers%20hero%20banner%20-p-2000.avif"
+          alt="escStack Careers"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* ENHANCED CONTRAST: Changed from /50 to /60 */}
+        <div className="absolute inset-0 bg-black/60" />
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10 max-w-3xl px-6"
+        >
+          {/* UPDATED FONT SIZE: Larger H1 for impact */}
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight">
+            Join Our Team
+          </h1>
+          {/* FONT STYLE: Added font-semibold for stronger hierarchy */}
+          <h2 className="text-xl md:text-3xl font-semibold mb-6">
+            Innovate. Grow. Succeed.
+          </h2>
+          <p className="text-lg mb-8 max-w-xl mx-auto">
+            We are a high-growth technology company built on a culture of collaboration, excellence, and continuous learning. Discover your next opportunity with us.
+          </p>
+          {/* CTA STYLING: Added background color, padding, and rounded corners */}
+          <Link
+            href="/jobs"
+            size="lg"
+            className="bg-teal-600 hover:bg-teal-700 text-white font-bold text-lg rounded-lg py-3 px-8 transition duration-300 shadow-xl"
+          >
+            Explore Open Positions
           </Link>
         </motion.div>
       </motion.header>

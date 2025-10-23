@@ -249,7 +249,7 @@ const CultureBenefit = () => {
                     </div>
 
                     {/* Right Image: Dynamic Display with Crossfade */}
-                    <div className="lg:w-1/2 mt-20 w-full lg:sticky lg:top-8 max-w-lg mx-auto lg:max-w-none">
+                    <div className="lg:w-1/2  w-full lg:sticky lg:top-25 max-w-lg mx-auto lg:max-w-none">
                         <div className="aspect-video lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl shadow-indigo-700/50 border-4 border-indigo-600/70 relative">
                              {/* Static container for relative positioning */}
                              <div className="image-container">
