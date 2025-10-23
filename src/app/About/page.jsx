@@ -230,7 +230,7 @@ export default function AboutUs() {
             backgroundImage: "url('/hero-background.jpg')",
           }}
         >
-          <div className="absolute inset-0 bg-black/40 z-0"></div>
+          <div className="absolute inset-0 bg-black/60 z-0"></div>
         </div>
 
         <motion.div

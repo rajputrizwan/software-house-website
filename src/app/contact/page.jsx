@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Mail,
@@ -16,6 +17,7 @@ import {
   MessageCircle,
   User,
   ChevronDown,
+  ArrowRight,
   CheckCircle,
   Linkedin,
   Twitter,
@@ -688,7 +690,7 @@ export default function ContactPage() {
                   iconColor: "text-blue-600 dark:text-blue-400",
                   bgColor: "bg-blue-100 dark:bg-blue-900/30",
                   title: "Email Us",
-                  content: "info@escstack.com",
+                  content: "info.escstack@gmail.com",
                   description: "We'll respond within 24 hours",
                   delay: 0.1,
                 },
@@ -697,8 +699,8 @@ export default function ContactPage() {
                   iconColor: "text-green-600 dark:text-green-400",
                   bgColor: "bg-green-100 dark:bg-green-900/30",
                   title: "Call Us",
-                  content: "+1 (555) 123-4567",
-                  description: "Mon-Fri from 8am to 6pm",
+                  content: "03163797857",
+                  description: "Mon, Wed, Fri: 9AM-1PM or 6PM-11PM",
                   delay: 0.2,
                 },
                 {
@@ -706,21 +708,17 @@ export default function ContactPage() {
                   iconColor: "text-purple-600 dark:text-purple-400",
                   bgColor: "bg-purple-100 dark:bg-purple-900/30",
                   title: "Visit Us",
-                  content: "123 Tech Boulevard, San Francisco, CA 94107",
-                  description: "Come say hello!",
+                  content: "House No A 58, Ali Town Lahore",
+                  description: "In front of Youth Inn Hostel, Rawind Road",
                   delay: 0.3,
                 },
                 {
                   icon: Clock,
                   iconColor: "text-amber-600 dark:text-amber-400",
                   bgColor: "bg-amber-100 dark:bg-amber-900/30",
-                  title: "Current Time",
-                  content: currentTime.toLocaleTimeString(),
-                  description: `We're currently ${
-                    currentTime.getHours() > 8 && currentTime.getHours() < 18
-                      ? "available"
-                      : "unavailable"
-                  }`,
+                  title: "Business Hours",
+                  content: "Monday, Wednesday, Friday",
+                  description: "9:00 AM - 1:00 PM & 6:00 PM - 11:00 PM",
                   delay: 0.4,
                 },
               ].map((item, index) => (
@@ -770,19 +768,32 @@ export default function ContactPage() {
               </h3>
               <div className="flex space-x-4">
                 {[
-                  { icon: Linkedin, color: "bg-blue-600", label: "LinkedIn" },
-                  { icon: Twitter, color: "bg-sky-500", label: "Twitter" },
+                  {
+                    icon: Linkedin,
+                    color: "bg-blue-600",
+                    label: "LinkedIn",
+                    href: "https://www.linkedin.com/company/escstack",
+                  },
+                  {
+                    icon: Twitter,
+                    color: "bg-sky-500",
+                    label: "Twitter",
+                    href: "https://x.com/EscStack",
+                  },
                   {
                     icon: Github,
                     color: "bg-gray-800 dark:bg-gray-700",
                     label: "GitHub",
+                    href: "https://github.com/escstack",
                   },
                 ].map((social, index) => (
                   <motion.a
                     key={index}
                     whileHover={{ y: -5, scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    href="#"
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={`${social.color} text-white p-3 rounded-full hover:opacity-90 transition-opacity relative overflow-hidden group`}
                     aria-label={social.label}
                   >
@@ -1045,14 +1056,16 @@ export default function ContactPage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-400 dark:hover:text-white"
-              >
-                View FAQs
-                <ChevronDown className="ml-2 w-4 h-4" />
-              </Button>
+              <Link href="/faq" passHref>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-400 dark:hover:text-white"
+                >
+                  View FAQs
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
             </motion.div>
             <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }}>
               <Button
