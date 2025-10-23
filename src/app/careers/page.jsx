@@ -266,7 +266,8 @@ export default function CareersPage() {
           </Link>
         </motion.div>
       </motion.header> */}
-      <motion.header
+    
+<motion.header
         className="relative flex items-center justify-center text-center text-white dark:text-white"
         style={{ height: headerHeight }}
       >
@@ -275,35 +276,35 @@ export default function CareersPage() {
           alt="escStack Careers"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        {/* ENHANCED CONTRAST: Changed from /50 to /60 */}
-        <div className="absolute inset-0 bg-black/60" />
+        {/* Increased contrast for professionalism */}
+        <div className="absolute inset-0 bg-black/70" />
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative z-10 max-w-3xl px-6"
+          className="relative z-10 max-w-2xl px-6"
         >
-          {/* UPDATED FONT SIZE: Larger H1 for impact */}
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight">
-            Join Our Team
+          {/* Main Heading with a striking gradient */}
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-600 text-transparent bg-clip-text">
+            Careers
           </h1>
-          {/* FONT STYLE: Added font-semibold for stronger hierarchy */}
-          <h2 className="text-xl md:text-3xl font-semibold mb-6">
-            Innovate. Grow. Succeed.
+          <h2 className="text-xl md:text-2xl mb-4">
+            Where People Drive Innovation
           </h2>
-          <p className="text-lg mb-8 max-w-xl mx-auto">
-            We are a high-growth technology company built on a culture of collaboration, excellence, and continuous learning. Discover your next opportunity with us.
+          <p className="mb-6">
+            We’re more than a workplace—we’re a people-first community that
+            grows stronger together.
           </p>
-          {/* CTA STYLING: Added background color, padding, and rounded corners */}
           <Link
             href="/jobs"
             size="lg"
-            className="bg-teal-600 hover:bg-teal-700 text-white font-bold text-lg rounded-lg py-3 px-8 transition duration-300 shadow-xl"
+          
+            className="bg-gradient-to-r from-blue-400 to-purple-600 hover:from-blue-500 hover:to-purple-700 text-white font-bold rounded-lg py-3 px-6 transition duration-300 shadow-xl"
           >
-            Explore Open Positions
+            Apply at escStack
           </Link>
         </motion.div>
-      </motion.header>
+      </motion.header> 
 
       {/* Path to Joining escStack */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900">
