@@ -81,7 +81,7 @@ export default function HeroSection() {
             <Button
               size="lg"
               variant="ghost"
-              className="gap-2 text-white"
+              className="gap-2 text-white backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-200"
               onClick={() => setIsVideoOpen(true)}
             >
               Watch reel
