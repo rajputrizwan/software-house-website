@@ -37,8 +37,31 @@ export async function POST(request) {
     const TO_ADDRESS = process.env.EMAIL_TO || process.env.EMAIL_USER || SMTP_USER;
     const FROM_ADDRESS = process.env.EMAIL_FROM || SMTP_USER;
 
-    // Build a simple text/html body from the incoming payload
-    const subject = body.subject || `New ${body.type || "website"} submission`;
+    // Helpful debug log for incoming payload (avoid logging secrets)
+    try {
+      console.log("/api/send-mail received payload:", JSON.stringify(body));
+    } catch (e) {
+      console.log("/api/send-mail received payload (could not stringify)");
+    }
+
+    // Auto-generate subject lines based on form type and available name/company
+    const formType = (body.type || "website").toString().toLowerCase();
+    const firstName = body.firstName || body.first_name || "";
+    const lastName = body.lastName || body.last_name || "";
+    const name = (body.name || `${firstName} ${lastName}`.trim() || "").trim();
+    const company = body.companyName || body.company_name || body.company || "";
+
+    let subjectPrefix = "New Submission";
+    if (formType.includes("contact")) subjectPrefix = "New Contact Form Submission";
+    else if (formType.includes("job") || formType.includes("career") || formType.includes("application")) subjectPrefix = "New Career Form Submission";
+    else if (formType.includes("service") || formType.includes("request") || company) subjectPrefix = "New Service Request";
+
+    const identifier = name || company || body.email || "(no name)";
+    const subject = `${subjectPrefix} – ${identifier}`;
+
+    // Mask SMTP user for logs
+    const maskedUser = SMTP_USER ? SMTP_USER.replace(/(.).+(@.*)/, "$1***$2") : "(none)";
+    console.log(`Preparing email -> from: ${process.env.EMAIL_FROM || SMTP_USER}, to: ${TO_ADDRESS}, smtpUser: ${maskedUser}, host: ${SMTP_HOST}:${SMTP_PORT}, secure:${SMTP_SECURE}`);
 
     const buildHtml = (data) => {
       let rows = "";
@@ -47,21 +70,31 @@ export async function POST(request) {
         if (data[key] === null || data[key] === undefined) continue;
         if (typeof data[key] === "object") {
           try {
-            rows += `<tr><td style=\"padding:6px 12px;font-weight:600;\">${key}</td><td style=\"padding:6px 12px;\">${JSON.stringify(data[key])}</td></tr>`;
+            rows += `<tr><td style=\"padding:6px 12px;font-weight:600;\">${escapeHtml(key)}</td><td style=\"padding:6px 12px;\">${escapeHtml(JSON.stringify(data[key]))}</td></tr>`;
           } catch (e) {
-            rows += `<tr><td style=\"padding:6px 12px;font-weight:600;\">${key}</td><td style=\"padding:6px 12px;\">[object]</td></tr>`;
+            rows += `<tr><td style=\"padding:6px 12px;font-weight:600;\">${escapeHtml(key)}</td><td style=\"padding:6px 12px;\">[object]</td></tr>`;
           }
         } else {
-          rows += `<tr><td style=\"padding:6px 12px;font-weight:600;\">${key}</td><td style=\"padding:6px 12px;\">${String(data[key])}</td></tr>`;
+          rows += `<tr><td style=\"padding:6px 12px;font-weight:600;\">${escapeHtml(key)}</td><td style=\"padding:6px 12px;\">${escapeHtml(String(data[key]))}</td></tr>`;
         }
       }
       return `
         <div style=\"font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#111;\">
-          <h2>${subject}</h2>
+          <h2>${escapeHtml(subject)}</h2>
           <table style=\"border-collapse:collapse;\">${rows}</table>
         </div>
       `;
     };
+
+    // simple HTML escaper to avoid accidental HTML injection
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
 
     const info = await transporter.sendMail({
       from: FROM_ADDRESS,
