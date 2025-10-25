@@ -4,6 +4,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, X } from "lucide-react";
 
+// Minimal animation variant used by this component
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
+};
+
 const CalendlyEmbedModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 

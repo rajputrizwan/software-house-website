@@ -215,6 +215,40 @@ export default function ContactPage() {
     setActiveField(null);
   };
 
+  // Handler for the main contact form (bottom of the page).
+  const handleMainFormSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+
+    try {
+      const formEl = formRef.current;
+      if (!formEl) {
+        console.error('Form ref missing');
+      } else {
+        const fd = new FormData(formEl);
+        const payload = Object.fromEntries(fd.entries());
+
+        // send to server API
+        const res = await fetch('/api/send-mail', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subject: 'Website contact form submission', type: 'contact-public', ...payload }),
+        });
+
+        if (!res.ok) {
+          console.error('Email API error:', await res.text());
+        }
+      }
+    } catch (err) {
+      console.error('Error submitting main contact form:', err);
+    }
+
+    // keep the existing UX behavior of showing the sent state briefly
+    setTimeout(() => {
+      setIsSubmitted(false);
+    }, 3000);
+  };
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -907,13 +941,7 @@ export default function ContactPage() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         ref={formRef}
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          setIsSubmitted(true);
-                          setTimeout(() => {
-                            setIsSubmitted(false);
-                          }, 3000);
-                        }}
+                        onSubmit={handleMainFormSubmit}
                         className="space-y-6"
                       >
                         <div>
