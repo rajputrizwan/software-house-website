@@ -565,34 +565,7 @@ const stats = [
   },
 ];
 
-// FAQ data
-const faqs = [
-  {
-    question: "How long does it take to develop a custom software solution?",
-    answer:
-      "The timeline varies based on project complexity. Simple applications can take 4-8 weeks, while enterprise solutions may require 3-6 months. We provide detailed timelines after requirements analysis.",
-  },
-  {
-    question: "Do you offer ongoing support after project completion?",
-    answer:
-      "Yes, all our plans include ongoing support options. We offer maintenance packages, updates, and 24/7 technical support depending on your chosen plan.",
-  },
-  {
-    question: "Can we scale our plan as our business grows?",
-    answer:
-      "Absolutely! Our services are designed to scale with your business. You can upgrade your plan or add additional services at any time.",
-  },
-  {
-    question: "What technologies do you specialize in?",
-    answer:
-      "We work with a wide range of technologies including React, Node.js, Python, AWS, Azure, React Native, Flutter, TensorFlow, and blockchain technologies among others.",
-  },
-  {
-    question: "How do you ensure data security and privacy?",
-    answer:
-      "We follow industry best practices, implement encryption, regular security audits, and comply with GDPR, HIPAA, and other relevant regulations based on your industry.",
-  },
-];
+
 
 export default function ServicesPage() {
   const [activeTab, setActiveTab] = useState("core-dev");
@@ -605,7 +578,7 @@ export default function ServicesPage() {
   });
   const [loading, setLoading] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [expandedFaq, setExpandedFaq] = useState(null);
+
   const testimonialsRef = useRef(null);
 
   const handleChoosePlan = (plan, service) => {
@@ -659,9 +632,7 @@ export default function ServicesPage() {
     );
   };
 
-  const toggleFaq = (index) => {
-    setExpandedFaq(expandedFaq === index ? null : index);
-  };
+ 
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
@@ -958,60 +929,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="w-full py-16">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
-              Frequently Asked <span className="text-blue-600">Questions</span>
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300">
-              Find answers to common questions about our services and processes.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className="border rounded-lg overflow-hidden dark:border-gray-700"
-              >
-                <button
-                  className="flex justify-between items-center w-full p-4 text-left bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  onClick={() => toggleFaq(index)}
-                >
-                  <span className="font-medium text-gray-800 dark:text-white">
-                    {faq.question}
-                  </span>
-                  <span className="text-blue-600">
-                    {expandedFaq === index ? (
-                      <X className="w-5 h-5" />
-                    ) : (
-                      <Plus className="w-5 h-5" />
-                    )}
-                  </span>
-                </button>
-                <AnimatePresence>
-                  {expandedFaq === index && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div className="p-4 bg-white dark:bg-gray-900">
-                        <p className="text-gray-600 dark:text-gray-300">
-                          {faq.answer}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+     
 
       {/* CTA Section */}
       <section className="w-full py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
@@ -1148,26 +1066,5 @@ export default function ServicesPage() {
         </DialogContent>
       </Dialog>
     </div>
-  );
-}
-
-// Plus icon component for FAQ
-function Plus(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    </svg>
   );
 }
