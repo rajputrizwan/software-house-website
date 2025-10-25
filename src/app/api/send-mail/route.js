@@ -39,7 +39,12 @@ export async function POST(request) {
 
     // Helpful debug log for incoming payload (avoid logging secrets)
     try {
-      console.log("/api/send-mail received payload:", JSON.stringify(body));
+      // Avoid logging large base64 content
+      const safeBody = { ...body };
+      if (safeBody.resume && safeBody.resume.content) {
+        safeBody.resume = { ...safeBody.resume, content: "[base64 omitted]" };
+      }
+      console.log("/api/send-mail received payload:", JSON.stringify(safeBody));
     } catch (e) {
       console.log("/api/send-mail received payload (could not stringify)");
     }
