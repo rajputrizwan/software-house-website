@@ -157,6 +157,36 @@ export default function ContactPage() {
       console.error("Supabase insert error:", error);
       alert("Error submitting form. Please try again.");
     } else {
+      // send notification email via server API
+      try {
+        const payload = {
+          type: "contact",
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          budget: formData.budget,
+          companyName: formData.companyName,
+          companyUrl: formData.companyUrl,
+          region: formData.region,
+          services: formData.services,
+          projectDetails: formData.projectDetails,
+          lookingForJob: formData.lookingForJob,
+        };
+
+        const res = await fetch("/api/send-mail", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ subject: "New contact form submission", ...payload }),
+        });
+
+        if (!res.ok) {
+          console.error("Email API responded with error:", await res.text());
+        }
+      } catch (err) {
+        console.error("Failed to call email API:", err);
+      }
+
       setIsSuccess(true);
       setFormData({
         firstName: "",

@@ -24,8 +24,33 @@ export default function ApplyPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert(`Application submitted for Job ID: ${id}`);
-        console.log("Form Data:", form);
+        (async () => {
+            try {
+                const payload = {
+                    type: 'job-application',
+                    jobId: id,
+                    ...form,
+                };
+
+                const res = await fetch('/api/send-mail', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subject: `New application for job ${id}`, ...payload }),
+                });
+
+                if (res.ok) {
+                    alert(`Application submitted for Job ID: ${id}`);
+                } else {
+                    const text = await res.text();
+                    console.error('Email API error:', text);
+                    alert('There was a problem submitting your application. Please try again later.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('There was a problem submitting your application.');
+            }
+            console.log("Form Data:", form);
+        })();
     };
 
     return (
