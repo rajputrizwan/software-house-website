@@ -28,6 +28,8 @@ import {
   FaHeart,
 } from "react-icons/fa";
 
+import { ArrowRight } from "lucide-react";
+
 // Simple count-up component without external dependencies
 function CountUpAnimation({ end, suffix, duration = 2.5 }) {
   const [count, setCount] = useState(0);
@@ -259,7 +261,7 @@ export default function AboutUs() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             We Create The{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
               Future
             </span>
           </motion.h1>
@@ -274,14 +276,20 @@ export default function AboutUs() {
           </motion.p>
           <Link href="/stories" passHref>
             <motion.button
-              className="bg-white text-blue-900 font-semibold py-3 px-8 rounded-full hover:bg-blue-100 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center mx-auto dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="relative group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center gap-3 overflow-hidden mx-auto"
             >
-              Explore Our Stories
+              {/* Shine effect (kept) */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+
+              <span className="relative z-10 flex items-center gap-2">
+                Explore Our Stories
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </span>
             </motion.button>
           </Link>
         </div>

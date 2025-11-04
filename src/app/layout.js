@@ -23,7 +23,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata = {
-  title: "EscTech",
+  title: "EscStack",
   description: "Modern tech solutions",
 };
 
