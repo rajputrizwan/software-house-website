@@ -186,9 +186,9 @@ export default function AboutUs() {
         duration: 0.5,
       },
     },
-  };      
+  };
 
-  // working on the page 
+  // working on the page
 
   const socialIcons = {
     linkedin: <FaLinkedin className="text-lg" />,
