@@ -267,6 +267,11 @@ const CategoryCard = ({ category, description, technologies, IconComponent }) =>
     </div>
   </div>
 );
+const primaryBtn =
+    "inline-flex items-center justify-center gap-3 px-6 py-3 rounded-full text-sm font-semibold shadow-[0_12px_40px_rgba(59,130,246,0.12)] transition transform will-change-transform hover:-translate-y-0.5 active:translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-400/40";
+  const primaryGradient = "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white";
+  const secondaryBtn =
+    "inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border ring-1 ring-transparent transition bg-white/8 hover:bg-white/10 dark:bg-white/4 dark:hover:bg-white/6 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-300";
 
 
 const TECH = [
@@ -561,109 +566,157 @@ export default function EscStackLanding() {
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+
+
+
       {/* ----------------------------- HERO SECTION ----------------------------- */}
+  
+
+
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-transparent to-purple-600/10" />
-        <div className="container flex gap-20 mx-auto px-6 md:px-10 pt-12 pb-20 relative z-10">
-          <div className="max-w-4xl flex-1 mx-auto pt-20">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="inline-flex items-center justify-center px-4 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-full mb-6"
-            >
-              <Sparkles className="h-5 w-5 text-blue-600 dark:text-blue-400 mr-2" />
-              <span className="text-blue-600 dark:text-blue-400 font-medium">
-                Building the future, one line of code at a time
-              </span>
-            </motion.div>
+        {/* subtle background gradient for the whole section */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/6 via-transparent to-purple-600/6 pointer-events-none" />
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
-            >
-              Software Engineering That
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                {" "}
-                Delivers Impact
-              </span>
-            </motion.h1>
+        <div className="container mx-auto px-6 md:px-10 py-12 md:py-20 relative z-10">
+          <div className="flex flex-col-reverse lg:flex-row items-start lg:items-center gap-10 lg:gap-20">
+            {/* Left / Top: copy */}
+            <div className="w-full lg:w-1/2 max-w-4xl">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/10 mb-5"
+              >
+                <Sparkles className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                <span className="text-sm font-medium text-blue-600 dark:text-blue-300">
+                  Building the future, one line of code at a time
+                </span>
+              </motion.div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="mt-6 text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
-            >
-              We build high-performance web & mobile applications, cloud
-              infrastructure, and AI solutions for forward-thinking companies.
-            </motion.p>
+              <motion.h1
+                id="hero-heading"
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.08 }}
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white"
+              >
+                Software Engineering That
+                <span className="block lg:inline text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                  {" "}
+                  Delivers Impact
+                </span>
+              </motion.h1>
 
-            {/* <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
-            >
-              <Link href="/contact">
-                <Button size="lg" className="gap-2">
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.16 }}
+                className="mt-5 text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-3xl"
+              >
+                We build high-performance web & mobile applications, cloud
+                infrastructure, and AI solutions for forward-thinking companies.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.24 }}
+                className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 items-center"
+              >
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-blue-600 text-white text-sm font-semibold shadow hover:bg-blue-700 transition w-full sm:w-auto"
+                  aria-label="Start your project"
+                >
                   Start your project
-                  <ArrowRight className="h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/work">
-                <Button size="lg" variant="outline" className="gap-2">
-                  <PlayCircle className="h-5 w-5" />
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+
+                <Link
+                  href="/work"
+                  className="inline-flex items-center gap-2 justify-center px-5 py-3 rounded-lg text-sm font-medium transition border border-slate-200 bg-white/90 text-slate-900 hover:bg-white dark:bg-transparent dark:text-white dark:border-white/20 dark:hover:bg-white/5 w-full sm:w-auto"
+                  aria-label="See our work"
+                >
+                  <PlayCircle className="h-4 w-4" />
                   See our work
-                </Button>
-              </Link>
-            </motion.div> */}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="mt-16 flex-[2] max-w-6xl mx-auto rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl"
-          >
-            <div className="relative aspect-video bg-gray-900 flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-700/20 to-purple-700/20" />
-              <div className="relative z-10 text-white text-center p-8">
-                <Rocket className="h-12 w-12 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold mb-2">
-                  Modern Software Solutions
-                </h3>
-                <p className="text-gray-300">
-                  Web, mobile, cloud, and AI—delivered with precision
-                </p>
-              </div>
+                </Link>
+              </motion.div>
             </div>
-          </motion.div>
-        </div>
 
-        {/* Client logos marquee */}
-        {/* <div className="border-t border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 py-8 mt-20">
-          <div className="container mx-auto px-6 md:px-10">
-            <p className="text-center text-sm text-gray-500 dark:text-gray-400 mb-4">
-              Trusted by innovative teams at
-            </p>
-            <LogosMarquee items={CLIENT_LOGOS} />
+            {/* Right / Bottom: visual card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.32 }}
+              className="w-full lg:w-1/2 flex-shrink-0"
+            >
+              <div className="rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-800 shadow-2xl bg-gradient-to-tr from-white to-slate-50 dark:from-gray-800 dark:to-gray-900">
+                <div className="relative aspect-video bg-gradient-to-tr from-blue-700/6 to-purple-700/6 flex items-center justify-center">
+                  {/* overlay gradient for stronger brand color — keeps contrast readable */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/10 to-purple-600/10 pointer-events-none" />
+                  <div className="relative z-10 text-center p-8">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow-lg mx-auto mb-4">
+                      <Rocket className="h-7 w-7 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      Modern Software Solutions
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
+                      Web, mobile, cloud, and AI—delivered with precision
+                    </p>
+                  </div>
+                </div>
+
+                {/* optional stats or CTA strip */}
+                <div className="px-6 py-4 border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900/40">
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-6">
+                      <div className="text-center">
+                        <div className="text-lg font-semibold text-gray-900 dark:text-white">100+</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">Projects</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-lg font-semibold text-gray-900 dark:text-white">50+</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">Clients</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-lg font-semibold text-gray-900 dark:text-white">5</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">Years</div>
+                      </div>
+                    </div>
+
+                    <div className="mt-3 sm:mt-0">
+                      <Link
+                        href="/contact"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition"
+                      >
+                        Get a quote
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
-        </div> */}
+        </div>
       </section>
-      {/* ----------------------------- VALUE PROPS ----------------------------- */}
-      <section className={sectionClass}>
-        {/* Surface toggle removed; using static dark surface for consistency */}
 
+
+
+      {/* ----------------------------- VALUE PROPS ----------------------------- */}
+
+
+      <section className={sectionClass}>
+        {/* Grid features */}
         <motion.div
           {...fadeUp()}
-          className="grid md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           variants={staggerParent}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
+          aria-label="Key capabilities"
         >
           {[
             {
@@ -685,21 +738,34 @@ export default function EscStackLanding() {
             <Card
               as="article"
               aria-roledescription="feature"
+              aria-label={v.title}
               key={i}
-              className="relative overflow-hidden border border-transparent bg-gradient-to-br from-white/30 to-white/10 dark:from-gray-800/50 dark:to-gray-800/30 backdrop-blur-md p-0 rounded-2xl hover:-translate-y-2 transform-gpu transition will-change-transform duration-300"
+              className="relative overflow-hidden rounded-2xl border border-transparent bg-gradient-to-br from-white/40 to-white/10 dark:from-gray-800/50 dark:to-gray-800/30 backdrop-blur-md p-0 transition-transform transform-gpu hover:-translate-y-2 focus-within:-translate-y-2 will-change-transform duration-300"
             >
-              {/* cyan accent bar */}
-              <div className="absolute left-0 top-0 h-full w-1 bg-cyan-400/80" aria-hidden="true" />
+              {/* vertical accent bar using blue->purple gradient */}
+              <div
+                className="absolute left-0 top-0 h-full w-1 rounded-r-full"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(59,130,246,0.95), rgba(99,102,241,0.9), rgba(139,92,246,0.95))",
+                }}
+              />
 
               <div className="p-6 md:p-8">
                 <div className="flex items-start gap-4">
-                  <div className="rounded-lg bg-gradient-to-tr from-cyan-50/60 to-cyan-100/40 p-3 text-cyan-400 dark:text-cyan-300 drop-shadow-[0_8px_30px_rgba(6,182,212,0.06)]">
+                  <div
+                    className="rounded-lg p-3 bg-gradient-to-tr from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-blue-600 dark:text-blue-300 drop-shadow-[0_10px_30px_rgba(99,102,241,0.06)] inline-flex"
+                    aria-hidden="true"
+                  >
                     {v.icon}
                   </div>
-                  <div className="flex-1">
-                    <CardTitle className="text-lg md:text-xl font-semibold text-cyan-400 dark:text-cyan-300">
+
+                  <div className="flex-1 min-w-0">
+                    <CardTitle className="text-lg md:text-xl font-semibold text-slate-900 dark:text-white">
                       {v.title}
                     </CardTitle>
+
                     <CardContent className="p-0 mt-2">
                       <p className="text-sm md:text-base text-gray-600 dark:text-gray-300">
                         {v.body}
@@ -708,211 +774,331 @@ export default function EscStackLanding() {
                   </div>
                 </div>
               </div>
+
+              {/* focusable overlay to provide keyboard focus styles */}
+              <span className="sr-only">Feature: {v.title}</span>
             </Card>
           ))}
         </motion.div>
-        {/* small CTA row */}
-        <div className="mt-6 flex items-center justify-between gap-4">
-          <div className="text-sm text-gray-600 dark:text-gray-300">Ready to discuss outcomes? We’ll map a pragmatic plan.</div>
-          <div>
-            <Link href="/contact">
-              <Button className="bg-cyan-600 hover:bg-cyan-500 text-white ring-1 ring-cyan-400/10 shadow-[0_10px_40px_rgba(6,182,212,0.08)]">
-                Book a free consult
-              </Button>
+
+        {/* CTA row */}
+        <div className="mt-6 flex flex-col-reverse sm:flex-row items-center justify-between gap-4">
+          <div className="text-sm text-gray-600 dark:text-gray-300">
+            Ready to discuss outcomes? We’ll map a pragmatic plan.
+          </div>
+
+          <div className="w-full sm:w-auto">
+            <Link
+              href="/contact"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:from-blue-700 hover:to-purple-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-300 transition"
+              aria-label="Book a free consult"
+            >
+              Book a free consult
             </Link>
           </div>
         </div>
       </section>
 
-
       {/* ------------------------- SERVICES SECTION ------------------------ */}
-      <section className="container mx-auto px-6 md:px-10 py-16">
-        <div className="relative max-w-2xl mx-auto text-center">
-          {/* decorative neon blobs */}
-          <div className="pointer-events-none absolute -top-8 -left-10 w-44 h-44 rounded-full bg-gradient-to-br from-cyan-400/30 to-indigo-400/20 blur-3xl mix-blend-screen opacity-60" />
-          <div className="pointer-events-none absolute -bottom-6 -right-16 w-56 h-56 rounded-full bg-gradient-to-tr from-purple-500/20 to-cyan-400/12 blur-2xl mix-blend-overlay opacity-50" />
+     
 
-          <h2 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-teal-300 leading-snug">
-            Product teams that ship impact
-          </h2>
-          <p className="text-lg text-gray-700 dark:text-gray-300 mt-3 mx-auto max-w-2xl">
-            Senior pods, platform engineering, and AI integrations—tailored to
-            move your product from prototype to scale with measurable outcomes.
-          </p>
-        </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-          {SERVICES.map((s, i) => (
-            <motion.div key={s.title} {...fadeUp(i * 0.05)}>
-              {(() => {
-                const titleId = `service-${i}-title`;
-                return (
-                  <Card
-                    role="article"
-                    aria-labelledby={titleId}
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      // allow Enter / Space to activate primary action unless an interactive element is focused
-                      const k = e.key;
-                      if (k === "Enter" || k === " ") {
-                        const tag = (e.target && e.target.tagName) || "";
-                        if (!["BUTTON", "A", "INPUT", "TEXTAREA", "SELECT"].includes(tag)) {
-                          e.preventDefault();
-                          router.push("/contact");
-                        }
-                      }
-                    }}
-                    className="group relative h-full bg-white/60 dark:bg-gray-900/44 backdrop-blur-md border border-white/6 dark:border-gray-800/40 shadow-[0_12px_50px_rgba(14,116,144,0.06)] rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/40 motion-safe:transition-transform motion-safe:transform-gpu group-hover:motion-safe:-translate-y-1 overflow-hidden"
-                  >
-                    <CardHeader>
-                      <div className="flex items-center gap-4">
-                        <div className="flex items-center justify-center rounded-lg p-3 bg-gradient-to-tr from-cyan-50/30 to-purple-50/10 text-cyan-300 dark:text-cyan-200 shadow-sm transition-shadow group-hover:shadow-[0_30px_100px_rgba(34,211,238,0.16)] w-12 h-12 ring-1 ring-cyan-300/8 relative">
-                          <span className="sr-only">{s.title} icon</span>
-                          <div className="transform-gpu transition-transform group-hover:scale-105" aria-hidden="true">
-                            {s.icon}
-                          </div>
-                          {/* inner glow */}
-                          <div className="pointer-events-none absolute inset-0 rounded-lg blur-[14px] opacity-60 mix-blend-screen bg-gradient-to-tr from-cyan-300/30 to-purple-400/6" />
-                        </div>
-                        <div className="flex-1">
-                          <CardTitle id={titleId} className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white">
-                            {s.title}
-                          </CardTitle>
-                          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                            {s.desc}
-                          </p>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <ul className="grid gap-2 text-sm">
-                        {s.bullet.map((b) => (
-                          <li key={b} className="flex items-start gap-3">
-                            <span className="mt-0.5 text-cyan-400 dark:text-cyan-300">
-                              <CheckCircle2 className="h-4 w-4" />
-                            </span>
-                            <span className="text-gray-700 dark:text-gray-200 text-sm">
-                              {b}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
+<section className="container mx-auto px-6 md:px-10 py-16">
+  <div className="relative max-w-2xl mx-auto text-center">
+    {/* decorative neon blobs (blue -> purple theme) */}
+    <div className="pointer-events-none absolute -top-8 -left-10 w-44 h-44 rounded-full bg-gradient-to-br from-blue-400/30 to-indigo-400/20 blur-3xl mix-blend-screen opacity-60" />
+    <div className="pointer-events-none absolute -bottom-6 -right-16 w-56 h-56 rounded-full bg-gradient-to-tr from-purple-500/20 to-blue-400/12 blur-2xl mix-blend-overlay opacity-50" />
 
-                      <div className="mt-4 border-t border-white/5 dark:border-gray-700 pt-3 flex items-center justify-between">
-                        <Link href="/services" className="text-sm text-cyan-600 hover:text-cyan-500">
-                          Learn more →
-                        </Link>
-                        <div className="flex items-center gap-2">
-                          <Link href="/contact">
-                            <Button className="bg-cyan-700 hover:bg-cyan-600 text-white shadow-[0_14px_60px_rgba(6,182,212,0.16)] ring-1 ring-cyan-500/20 focus-visible:ring-2 focus-visible:ring-cyan-400/40">
-                              Talk to us
-                            </Button>
-                          </Link>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })()}
-            </motion.div>
-          ))}
-        </div>
-      </section>
+    <h2 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-400 leading-snug">
+      Product teams that ship impact
+    </h2>
+    <p className="text-lg text-gray-700 dark:text-gray-300 mt-3 mx-auto max-w-2xl">
+      Senior pods, platform engineering, and AI integrations—tailored to
+      move your product from prototype to scale with measurable outcomes.
+    </p>
+  </div>
+
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+    {SERVICES.map((s, i) => (
+      <motion.div key={s.title} {...fadeUp(i * 0.05)}>
+        {(() => {
+          const titleId = `service-${i}-title`;
+          return (
+            <Card
+              role="article"
+              aria-labelledby={titleId}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                // allow Enter / Space to activate primary action unless an interactive element is focused
+                const k = e.key;
+                if (k === "Enter" || k === " ") {
+                  const tag = (e.target && e.target.tagName) || "";
+                  if (!["BUTTON", "A", "INPUT", "TEXTAREA", "SELECT"].includes(tag)) {
+                    e.preventDefault();
+                    // use location navigation to avoid nested Link/Button issues
+                    if (typeof window !== "undefined") window.location.href = "/contact";
+                  }
+                }
+              }}
+              className="group relative h-full rounded-2xl overflow-hidden bg-gradient-to-br from-white/60 to-slate-50 dark:from-gray-900/40 dark:to-gray-900/30 backdrop-blur-md border border-white/6 dark:border-gray-800/40 shadow-[0_12px_50px_rgba(14,116,144,0.06)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/30 motion-safe:transform-gpu motion-safe:transition-transform group-hover:motion-safe:-translate-y-1"
+            >
+              {/* vertical accent bar using blue -> purple gradient */}
+              <div
+                className="absolute left-0 top-0 h-full w-1 rounded-r-full"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(59,130,246,0.95), rgba(99,102,241,0.9), rgba(139,92,246,0.95))",
+                }}
+              />
+
+              <CardHeader className="p-6 md:p-8">
+                <div className="flex items-start gap-4">
+                  <div className="flex items-center justify-center rounded-lg p-3 bg-gradient-to-tr from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-blue-600 dark:text-blue-300 shadow-sm transition-shadow group-hover:shadow-[0_30px_100px_rgba(99,102,241,0.12)] w-12 h-12 ring-1 ring-blue-300/8 relative">
+                    <span className="sr-only">{s.title} icon</span>
+                    <div className="transform-gpu transition-transform group-hover:scale-105" aria-hidden="true">
+                      {s.icon}
+                    </div>
+                    {/* inner glow */}
+                    <div className="pointer-events-none absolute inset-0 rounded-lg blur-[14px] opacity-60 mix-blend-screen bg-gradient-to-tr from-blue-300/30 to-purple-400/6" />
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <CardTitle id={titleId} className="text-lg md:text-xl font-semibold text-slate-900 dark:text-white">
+                      {s.title}
+                    </CardTitle>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                      {s.desc} 
+                    </p> 
+                  </div>
+                </div>
+              </CardHeader>
+
+              <CardContent className="p-6 md:p-6 pt-0 space-y-4">
+                <ul className="grid gap-2 text-sm">
+                  {s.bullet.map((b) => (
+                    <li key={b} className="flex items-start gap-3">
+                      <span className="mt-0.5 text-blue-500 dark:text-blue-300">
+                        <CheckCircle2 className="h-4 w-4" />
+                      </span>
+                      <span className="text-gray-700 dark:text-gray-200 text-sm">{b}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-4 border-t border-white/5 dark:border-gray-700 pt-3 flex items-center justify-between">
+                  <Link href="/services" className="text-sm font-medium text-blue-600 hover:text-indigo-600">
+                    Learn more →
+                  </Link>
+
+                  <div className="flex items-center gap-2">
+                    {/* Use an inline button that navigates on click (avoids nesting Link + Button) */}
+                    <button
+                      type="button"
+                      onClick={() => (typeof window !== "undefined" ? (window.location.href = "/contact") : null)}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm font-medium shadow-[0_14px_60px_rgba(59,130,246,0.14)] ring-1 ring-blue-500/20 focus-visible:ring-2 focus-visible:ring-blue-400/40 transition"
+                    >
+                      Talk to us
+                    </button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })()}
+      </motion.div>
+    ))}
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       {/* ------------------------- ALTERNATING FEATURES ------------------------ */}
-      <section className="container mx-auto px-6 md:px-10 py-16 space-y-20">
-        {/* Feature A */}
-        <div className="grid md:grid-cols-2 gap-10 items-center">
-          <motion.div {...fadeUp()}>
-            <img
-              src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1600&auto=format&fit=crop"
-              alt="Design workshop"
-              className="rounded-2xl border border-gray-200 dark:border-gray-700 object-cover w-full h-[360px]"
-            />
-          </motion.div>
-          <motion.div {...fadeUp(0.1)}>
-            <Badge variant="outline" className="mb-3">
-              Design → Dev
-            </Badge>
-            <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white">
-              From Insight to Interface—Design Systems Developers Love
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
-              We codify tokens, components, and guidelines to make teams faster
-              and interfaces consistent—without slowing down discovery.
-            </p>
-            <div className="mt-6 flex gap-3">
-              <Button asChild>
-                <Link href="/work">See case studies</Link>
-              </Button>
-              <Button variant="outline" asChild>
-                <Link href="/services">Our design process</Link>
-              </Button>
-            </div>
-          </motion.div>
-        </div>
+     
 
-        {/* Feature B */}
-        <div className="grid md:grid-cols-2 gap-10 items-center">
-          <motion.div {...fadeUp(0.1)} className="order-2 md:order-1">
-            <Badge variant="outline" className="mb-3">
-              AI + Data
-            </Badge>
-            <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white">
-              Practical AI That Ships—LLMs, RAG, and Analytics
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
-              We integrate LLMs, retrieval, and guardrails to create helpful
-              product experiences, backed by analytics that prove value.
-            </p>
-            <div className="mt-6 flex gap-3">
-              <Button variant="secondary" asChild>
-                <Link href="/contact">Prototype with us</Link>
-              </Button>
-              <Button variant="outline" asChild>
-                <Link href="/services#ai">AI services</Link>
-              </Button>
-            </div>
-          </motion.div>
-          <motion.div {...fadeUp()} className="order-1 md:order-2">
-            <img
-              src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop"
-              alt="AI console"
-              className="rounded-2xl border border-gray-200 dark:border-gray-700 object-cover w-full h-[360px]"
-            />
-          </motion.div>
-        </div>
 
-        {/* Feature C */}
-        <div className="grid md:grid-cols-2 gap-10 items-center">
-          <motion.div {...fadeUp()}>
-            <img
-              src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1600&auto=format&fit=crop"
-              alt="Cloud ops"
-              className="rounded-2xl border border-gray-200 dark:border-gray-700 object-cover w-full h-[360px]"
-            />
-          </motion.div>
-          <motion.div {...fadeUp(0.1)}>
-            <Badge variant="outline" className="mb-3">
-              DevOps & SRE
-            </Badge>
-            <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white">
-              Reliable by Design—Observability, SLOs, and Cost Discipline
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
-              Delivery with confidence: CI/CD, rollbacks, infra as code, and
-              runbooks that scale with your roadmap.
-            </p>
-            <div className="mt-6 flex gap-3">
-              <Button asChild>
-                <Link href="/services#cloud">See capabilities</Link>
-              </Button>
-              <Button variant="outline" asChild>
-                <Link href="/contact">Talk to an architect</Link>
-              </Button>
-            </div>
-          </motion.div>
+<section className="container mx-auto px-6 md:px-10 py-16 space-y-16">
+      {/* Feature A */}
+      <div className="grid md:grid-cols-2 gap-8 items-center">
+        <motion.div {...(fadeUp ? fadeUp() : {})} className="rounded-2xl overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1600&auto=format&fit=crop"
+            alt="Design and front-end engineering workshop"
+            className="w-full h-[360px] object-cover rounded-2xl border border-gray-200 dark:border-gray-700"
+            loading="lazy"
+          />
+        </motion.div>
+
+        <motion.div {...(fadeUp ? fadeUp(0.07) : {})} className="space-y-4">
+          <Badge className="rounded-full border text-sm px-3 py-1 bg-transparent text-blue-600 dark:text-blue-300 border-blue-100 dark:border-blue-800">
+            Design → Dev
+          </Badge>
+
+          <h3 className="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white leading-tight">
+            Design systems & front-end engineering for consistent products
+          </h3>
+
+          <p className="text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
+            We translate product strategy into living design systems and production-ready components.
+            Our teams deliver design tokens, accessible UI primitives and developer tooling so your
+            product ships faster with consistent UX across web and mobile.
+          </p>
+
+          <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <Link
+              href="/work"
+              className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
+              aria-label="See case studies"
+            >
+              See case studies
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
+            <Link
+              href="/services"
+              className={`${secondaryBtn} text-slate-900 dark:text-white border-slate-100 dark:border-white/10 w-full sm:w-auto`}
+              aria-label="Our design process"
+            >
+              Our design process
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Feature B */}
+      <div className="grid md:grid-cols-2 gap-8 items-center">
+        <motion.div {...(fadeUp ? fadeUp(0.08) : {})} className="order-2 md:order-1 space-y-4">
+          <Badge className="rounded-full border text-sm px-3 py-1 bg-transparent text-blue-600 dark:text-blue-300 border-blue-100 dark:border-blue-800">
+            AI · Data
+          </Badge>
+
+          <h3 className="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white leading-tight">
+            Practical AI & data engineering that powers product value
+          </h3>
+
+          <p className="text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
+            We integrate LLMs, retrieval-augmented systems, and instrumentation so you get
+            measurable outcomes — faster time-to-value, safer behavior, and analytics that prove ROI.
+            Production-ready ML pipelines and guardrails are standard.
+          </p>
+
+          <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <Link
+              href="/services#ai"
+              className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
+              aria-label="AI services"
+            >
+              AI services
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
+            <Link
+              href="/contact"
+              className={`${secondaryBtn} text-slate-900 dark:text-white border-slate-100 dark:border-white/10 w-full sm:w-auto`}
+              aria-label="Prototype with us"
+            >
+              Prototype with us
+            </Link>
+          </div>
+        </motion.div>
+
+        <motion.div {...(fadeUp ? fadeUp() : {})} className="order-1 md:order-2 rounded-2xl overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop"
+            alt="AI and data engineering console"
+            className="w-full h-[360px] object-cover rounded-2xl border border-gray-200 dark:border-gray-700"
+            loading="lazy"
+          />
+        </motion.div>
+      </div>
+
+      {/* Feature C */}
+      <div className="grid md:grid-cols-2 gap-8 items-center">
+        <motion.div {...(fadeUp ? fadeUp() : {})} className="rounded-2xl overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1600&auto=format&fit=crop"
+            alt="Cloud infrastructure and SRE"
+            className="w-full h-[360px] object-cover rounded-2xl border border-gray-200 dark:border-gray-700"
+            loading="lazy"
+          />
+        </motion.div>
+
+        <motion.div {...(fadeUp ? fadeUp(0.07) : {})} className="space-y-4">
+          <Badge className="rounded-full border text-sm px-3 py-1 bg-transparent text-blue-600 dark:text-blue-300 border-blue-100 dark:border-blue-800">
+            DevOps · SRE
+          </Badge>
+
+          <h3 className="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white leading-tight">
+            Reliable delivery—observability, SLOs & cost discipline
+          </h3>
+
+          <p className="text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
+            We build resilient cloud platforms with CI/CD, infra-as-code, and SRE practices so your
+            service meets SLAs and stays cost-efficient. Runbooks, monitoring and automated plays
+            are built into every release.
+          </p>
+
+          <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <Link
+              href="/services#cloud"
+              className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
+              aria-label="See capabilities"
+            >
+              See capabilities
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
+            <Link
+              href="/contact"
+              className={`${secondaryBtn} text-slate-900 dark:text-white border-slate-100 dark:border-white/10 w-full sm:w-auto`}
+              aria-label="Talk to an architect"
+            >
+              Talk to an architect
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Section CTA (single, clear, primary action) */}
+      <div className="max-w-3xl mx-auto text-center mt-6">
+        <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 mb-6">
+          Ready to build? Our senior pods design, ship and operate production software — let’s discuss your roadmap.
+        </p>
+
+        <div className="flex items-center justify-center gap-3">
+          <Link
+            href="/contact"
+            className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
+            aria-label="Start a project"
+          >
+            Start a project
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+
+          <Link
+            href="/work"
+            className={`${secondaryBtn} text-slate-900 dark:text-white border-slate-100 dark:border-white/10 hidden sm:inline-flex`}
+            aria-label="View work"
+          >
+            View work
+          </Link>
         </div>
-      </section>
+      </div>
+    </section>
+
+
+
       {/* -------------------------------- METRICS -------------------------------- */}
       <section className="container mx-auto px-6 md:px-10 py-16" aria-label="Key statistics">
         <Card className="border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/60 backdrop-blur-md">
@@ -993,7 +1179,7 @@ export default function EscStackLanding() {
         </div>
         <CaseCarousel />
       </section>
-    
+
 
 
       {/* -------------------------------- TESTIMONIALS ----------------------------- */}
@@ -1029,13 +1215,13 @@ export default function EscStackLanding() {
           ))}
         </div>
       </section>
-     
-     <TechStack/>
-    
+
+      <TechStack />
+
 
       {/* -------------------------------- FINAL CTA ------------------------------ */}
-      <CtaSection/>
-      
+      <CtaSection />
+
     </main>
   );
 }

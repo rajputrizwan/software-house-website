@@ -153,7 +153,7 @@ export default function Navbar() {
           onClick={handleNavClick}
           className="font-bold text-lg md:text-xl flex items-center gap-2"
         >
-          <span className="text-blue-600">Esc</span>Tech
+          <span className="text-blue-600">Esc</span>Stack
           <span className="relative">
             <span className="absolute -top-1 -right-3 w-2 h-2 bg-blue-600 rounded-full animate-ping" />
             <span className="absolute -top-1 -right-3 w-2 h-2 bg-blue-600 rounded-full" />
