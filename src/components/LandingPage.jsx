@@ -11,7 +11,6 @@ function LandingPage() {
       <BrandScroller />
       <EscStackLanding />
       <ContactSidebar />
-      
     </div>
   );
 }
