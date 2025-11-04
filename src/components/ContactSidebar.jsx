@@ -228,7 +228,8 @@ export default function ContactSidebar() {
       // Combine country code with phone number
       const fullPhoneNumber = `${formData.countryCode} ${formData.phone}`;
 
-      const { error } = await supabase.from("contacts").insert([
+      // First, save to Supabase
+      const { error: supabaseError } = await supabase.from("contacts").insert([
         {
           first_name: formData.firstName,
           last_name: formData.lastName,
@@ -245,32 +246,54 @@ export default function ContactSidebar() {
         },
       ]);
 
-      if (error) {
-        console.error("Supabase insert error:", error);
+      if (supabaseError) {
+        console.error("Supabase insert error:", supabaseError);
         setSubmitError(
-          error.message || "Error submitting form. Please try again."
+          supabaseError.message || "Error submitting form. Please try again."
         );
-      } else {
-        setIsSuccess(true);
-        // Reset form
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          countryCode: "+92",
-          budget: "",
-          companyName: "",
-          companyUrl: "",
-          region: "",
-          services: [],
-          projectDetails: "",
-          lookingForJob: false,
-        });
-        setErrors({});
+        return;
       }
+
+      // Then, send email notification
+      const emailResponse = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          phone: fullPhoneNumber, // Send the combined phone number
+        }),
+      });
+
+      const emailResult = await emailResponse.json();
+
+      if (!emailResponse.ok) {
+        console.error("Email sending failed:", emailResult.error);
+        // Don't show error to user - form was still saved to database
+      }
+
+      // Success - show success state
+      setIsSuccess(true);
+
+      // Reset form
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        countryCode: "+92",
+        budget: "",
+        companyName: "",
+        companyUrl: "",
+        region: "",
+        services: [],
+        projectDetails: "",
+        lookingForJob: false,
+      });
+      setErrors({});
     } catch (error) {
-      console.error("Form submission error:", error);
+      console.error("Unexpected error:", error);
       setSubmitError(error.message || "An unexpected error occurred");
     } finally {
       setIsSubmitting(false);
