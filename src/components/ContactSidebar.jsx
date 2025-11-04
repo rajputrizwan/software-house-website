@@ -251,7 +251,65 @@ export default function ContactSidebar() {
         setSubmitError(
           supabaseError.message || "Error submitting form. Please try again."
         );
-        return;
+      } else {
+        // send notification email via server API (admin + confirmation to user)
+        try {
+          const payload = {
+            type: "contact",
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            phone: `${formData.countryCode} ${formData.phone}`,
+            budget: formData.budget,
+            companyName: formData.companyName,
+            companyUrl: formData.companyUrl,
+            region: formData.region,
+            services: formData.services,
+            projectDetails: formData.projectDetails,
+            lookingForJob: formData.lookingForJob,
+          };
+
+          const res = await fetch("/api/send-mail", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              subject: "New contact form submission",
+              ...payload,
+            }),
+          });
+
+          if (!res.ok) {
+            const text = await res.text();
+            console.error("Email API responded with error:", text);
+            // Non-fatal for user; we'll still show success for form submission
+            setSubmitError("Submitted but failed to send notification email.");
+          } else {
+            console.log(
+              "Contact email notification sent (server responded OK)"
+            );
+          }
+        } catch (err) {
+          console.error("Failed to call email API:", err);
+          setSubmitError("Submitted but failed to send notification email.");
+        }
+
+        setIsSuccess(true);
+        // Reset form
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          countryCode: "+92",
+          budget: "",
+          companyName: "",
+          companyUrl: "",
+          region: "",
+          services: [],
+          projectDetails: "",
+          lookingForJob: false,
+        });
+        setErrors({});
       }
 
       // Then, send email notification

@@ -22,10 +22,74 @@ export default function ApplyPage() {
         setForm({ ...form, [field]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        alert(`Application submitted for Job ID: ${id}`);
-        console.log("Form Data:", form);
+
+        // Prepare payload and convert resume File to base64 if present
+        try {
+            const payload = {
+                type: 'job-application',
+                jobId: id,
+                firstName: form.firstName,
+                lastName: form.lastName,
+                email: form.email,
+                headline: form.headline,
+                phone: form.phone,
+                address: form.address,
+                education: form.education,
+                experience: form.experience,
+                summary: form.summary,
+                coverLetter: form.coverLetter,
+            };
+
+            // If a resume File object is present, convert to base64 and include metadata
+            if (form.resume) {
+                const file = form.resume;
+                // read as base64
+                const base64 = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = (err) => reject(err);
+                    reader.readAsDataURL(file);
+                });
+
+                // base64 will be like: data:application/pdf;base64,AAAA..., so split
+                const match = /^data:(.*);base64,(.*)$/.exec(base64);
+                if (match) {
+                    const contentType = match[1];
+                    const content = match[2];
+                    payload.resume = {
+                        filename: file.name,
+                        content,
+                        contentType,
+                    };
+                } else {
+                    console.warn('Could not parse base64 file data for resume');
+                }
+            }
+
+            const res = await fetch('/api/send-mail', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ subject: `New application for job ${id}`, ...payload }),
+            });
+
+            if (res.ok) {
+                alert(`Application submitted for Job ID: ${id}`);
+            } else {
+                const text = await res.text();
+                console.error('Email API error:', text);
+                alert('There was a problem submitting your application. Please try again later.');
+            }
+        } catch (err) {
+            console.error('Submit error:', err);
+            alert('There was a problem submitting your application.');
+        }
+
+        console.log('Form Data sent (sans binary):', {
+            ...form,
+            resume: form.resume ? form.resume.name : null,
+        });
     };
 
     return (
