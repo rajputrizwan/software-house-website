@@ -41,7 +41,7 @@ export default function Footer() {
             href="/"
             className="text-2xl font-bold text-white hover:text-blue-500 transition-colors"
           >
-            EscTech<span className="text-blue-500">•</span>
+            EscStack<span className="text-blue-500">•</span>
           </Link>
           <p className="mt-4 text-sm text-gray-400">
             Innovating technology solutions for businesses worldwide.
