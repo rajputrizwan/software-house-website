@@ -2,11 +2,10 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, FileText, Briefcase, Rocket } from "lucide-react";
 import Link from "next/link";
-import CultureBenefit from "../../components/CultureBenefit"
+import CultureBenefit from "./components/CultureBenefit";
 
 export default function CareersPage() {
   const [scrollY, setScrollY] = useState(0);
@@ -101,19 +100,6 @@ export default function CareersPage() {
     },
   ];
 
-  // const culturalImages = [
-  //   "https://images.unsplash.com/photo-1595152772835-219674b2a8a0",
-  //   "https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5",
-  //   "https://images.unsplash.com/photo-1526403229177-77dd5200e6c8",
-  //   "https://media.istockphoto.com/id/1363627613/photo/multiracial-group-of-young-friends-bonding-outdoors.webp?a=1&b=1&s=612x612&w=0&k=20&c=BhCjKy55MkViSTYaB_ormQkz32IINj4p7K9DMR4BHuE=",
-  //   "https://images.unsplash.com/photo-1533090161767-e6ffed986c88",
-  //   "https://images.unsplash.com/photo-1551434678-21f438bdc338",
-  //   "https://images.unsplash.com/photo-1515204237801-2e0a7d2bb1cf",
-  //   "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
-  //   "https://images.unsplash.com/photo-1587620931287-584f3c89c6c2",
-  //   "https://images.unsplash.com/photo-1590650046871-72f53ce9c6e1",
-  // ];
-
   const InfiniteScrollRow = ({ images, direction = "left", speed = 0.5 }) => {
     const containerRef = useRef(null);
 
@@ -166,108 +152,10 @@ export default function CareersPage() {
     );
   };
 
-  // const [activeIndex, setActiveIndex] = useState(0);
-  // const benefits = [
-  //   {
-  //     title: "Fuel Allowance",
-  //     image:
-  //       "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=800&q=80",
-  //   },
-  //   {
-  //     title: "Outpatient (OPD) & Inpatient (IPD) Benefits",
-  //     image:
-  //       "https://images.unsplash.com/photo-1588776814546-76e7e0db0f03?auto=format&fit=crop&w=800&q=80",
-  //   },
-  //   {
-  //     title: "Workation Opportunities",
-  //     image:
-  //       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-  //   },
-  //   {
-  //     title: "World-Class Gyms",
-  //     image:
-  //       "https://images.unsplash.com/photo-1554284126-18ec4dbe2a8b?auto=format&fit=crop&w=800&q=80",
-  //   },
-  //   {
-  //     title: "Exclusive Salons",
-  //     image:
-  //       "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=800&q=80",
-  //   },
-  //   {
-  //     title: "Work from Home Options",
-  //     image:
-  //       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
-  //   },
-  //   {
-  //     title: "Paid Leaves",
-  //     image:
-  //       "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
-  //   },
-  //   {
-  //     title: "Skill Development Programs",
-  //     image:
-  //       "https://images.unsplash.com/photo-1518081461907-6b896f96e39d?auto=format&fit=crop&w=800&q=80",
-  //   },
-  //   {
-  //     title: "Performance Bonuses",
-  //     image:
-  //       "https://images.unsplash.com/photo-1526378720394-51b56c8a3a38?auto=format&fit=crop&w=800&q=80",
-  //   },
-  //   {
-  //     title: "Tech Allowances",
-  //     image:
-  //       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
-  //   },
-  //   {
-  //     title: "Diverse Work Culture",
-  //     image:
-  //       "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
-  //   },
-  //   {
-  //     title: "Health and Wellness Programs",
-  //     image:
-  //       "https://images.unsplash.com/photo-1556910103-1db64c9f0f9f?auto=format&fit=crop&w=800&q=80",
-  //   },
-  // ];
-
   return (
     <div className="w-full">
-      {/* Hero Header */}
-      {/* <motion.header
-        className="relative flex items-center justify-center text-center text-white dark:text-white"
-        style={{ height: headerHeight }}
-      >
-        <img
-          src="https://cdn.prod.website-files.com/6719ad0ceed6d5aa24a83d61/675285d33bee2c4c0822e50a_Careers%20hero%20banner%20-p-2000.avif"
-          alt="escStack Careers"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/50" />
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 max-w-2xl px-6"
-        >
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Careers</h1>
-          <h2 className="text-xl md:text-2xl mb-4">
-            Where People Drive Innovation
-          </h2>
-          <p className="mb-6">
-            We’re more than a workplace—we’re a people-first community that
-            grows stronger together.
-          </p>
-          <Link
-            href="/jobs"
-            size="lg"
-            className="hover:bg-teal-700 text-4xl"
-          >
-            Apply at escStack
-          </Link>
-        </motion.div>
-      </motion.header> */}
-    
-<motion.header
+      {/* Hero Section */}
+      <motion.header
         className="relative flex items-center justify-center text-center text-white dark:text-white"
         style={{ height: headerHeight }}
       >
@@ -298,13 +186,12 @@ export default function CareersPage() {
           <Link
             href="/jobs"
             size="lg"
-          
             className="bg-gradient-to-r from-blue-400 to-purple-600 hover:from-blue-500 hover:to-purple-700 text-white font-bold rounded-lg py-3 px-6 transition duration-300 shadow-xl"
           >
             Apply at escStack
           </Link>
         </motion.div>
-      </motion.header> 
+      </motion.header>
 
       {/* Path to Joining escStack */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900">
@@ -444,68 +331,7 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* 🎉 Culture & Lifestyle
-      <section className="py-20 bg-black dark:bg-gray-800 text-white">
-        <div className="text-center mb-10 px-4">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
-            Culture & Lifestyle
-          </h2>
-          <p className="text-sm sm:text-base lg:text-lg text-gray-300 mt-2 max-w-3xl mx-auto">
-            Experience a vibrant work culture that celebrates creativity,
-            collaboration, and milestones through unforgettable moments.
-          </p>
-        </div>
-
-        <div className="space-y-6">
-          {/* Top row: Left to Right */}
-          {/* <InfiniteScrollRow images={culturalImages} direction="left" /> */}
-
-          {/* Bottom row: Right to Left */}
-          {/* <InfiniteScrollRow images={culturalImages} direction="right" /> */}
-        {/* </div>
-      </section> */}
-
-      {/* 🎯 Benefits Section */}
-      {/* <section className="max-w mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col lg:flex-row items-center gap-10 bg-black dark:bg-gray-900 text-white shadow-lg">
-        Left Content
-        <div className="flex-1 text-center lg:text-left">
-          <h5 className="text-xs sm:text-sm uppercase font-semibold tracking-widest mb-2 text-blue-400">
-            Benefits
-          </h5>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-6 bg-blue-700 inline-block px-4 py-1 rounded">
-            Why Join Us: Unlock Growth, Impact, and Opportunities
-          </h2>
-
-          <ul className="space-y-3 sm:space-y-4 text-base sm:text-lg font-light leading-relaxed">
-            {benefits.map((benefit, idx) => (
-              <li
-                key={idx}
-                className={`cursor-pointer hover:text-blue-400 transition-colors duration-300 ${
-                  activeIndex === idx ? "text-blue-300 font-semibold" : ""
-                }`}
-                onMouseEnter={() => setActiveIndex(idx)}
-                onFocus={() => setActiveIndex(idx)}
-                tabIndex={0}
-                aria-label={`Benefit: ${benefit.title}`}
-              >
-                {benefit.title}
-              </li>
-            ))}
-          </ul>
-        </div> */}
-
-        {/* Right Image */}
-        {/* <div className="flex-1 max-w-md rounded-lg overflow-hidden shadow-lg border-4 border-blue-600">
-          <img
-            src={benefits[activeIndex].image}
-            alt={benefits[activeIndex].title}
-            className="w-full h-64 sm:h-80 object-cover transition-opacity duration-500"
-            key={benefits[activeIndex].image} // Force img reload on change
-          />
-        </div>
-      </section> */} 
-
-    <CultureBenefit/>
+      <CultureBenefit />
     </div>
   );
 }
