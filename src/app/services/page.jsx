@@ -485,11 +485,13 @@ export default function ModernServicesPage() {
     );
   };
 
+  // ✅ UPDATED: Backend integration for sending emails
   const handleChoosePlan = (plan, service) => {
     setSelectedPlan({ ...plan, service: service.title });
     setOpen(true);
   };
 
+  // ✅ UPDATED: Actual backend call instead of simulation
   const handleSend = async () => {
     if (!formData.email || !formData.name) {
       alert("⚠️ Please fill in your name and email.");
@@ -498,13 +500,19 @@ export default function ModernServicesPage() {
 
     setLoading(true);
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Sending data:", { ...formData, plan: selectedPlan });
+      const res = await fetch("/api/send-mail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, plan: selectedPlan }),
+      });
 
-      alert("✅ Confirmation email sent! Please check your inbox.");
-      setOpen(false);
-      setFormData({ name: "", email: "", details: "" });
+      if (res.ok) {
+        alert("✅ Confirmation email sent! Please check your inbox.");
+        setOpen(false);
+        setFormData({ name: "", email: "", details: "" });
+      } else {
+        alert("❌ Failed to send email. Try again later.");
+      }
     } catch (err) {
       console.error(err);
       alert("⚠️ Error sending email.");
