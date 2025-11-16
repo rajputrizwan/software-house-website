@@ -2143,7 +2143,7 @@ export default function EscStackLanding() {
               product ships faster with consistent UX across web and mobile.
             </p>
 
-            <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            {/* <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <Link
                 href="/work"
                 className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
@@ -2160,7 +2160,33 @@ export default function EscStackLanding() {
               >
                 Our design process
               </Link>
-            </div>
+            </div> */}
+            <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+  <Link
+    href="/work"
+    className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
+    aria-label="See case studies"
+  >
+    See case studies
+    <ArrowRight className="w-4 h-4" />
+  </Link>
+
+  {/* --- FIX: Replaced 'secondaryBtn' with explicit theme-compatible classes --- */}
+  <Link
+    href="/services"
+    className="
+      inline-flex items-center justify-center px-6 py-3 rounded-full 
+      text-sm font-semibold transition
+      w-full sm:w-auto
+      bg-white text-slate-900 border border-slate-200 hover:bg-slate-50
+      dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-300
+    "
+    aria-label="Our design process"
+  >
+    Our design process
+  </Link>
+</div>
           </motion.div>
         </div>
 
@@ -2181,7 +2207,7 @@ export default function EscStackLanding() {
               Production-ready ML pipelines and guardrails are standard.
             </p>
 
-            <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            {/* <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <Link
                 href="/services#ai"
                 className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
@@ -2198,7 +2224,34 @@ export default function EscStackLanding() {
               >
                 Prototype with us
               </Link>
-            </div>
+            </div> */}
+
+            <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+  <Link
+    href="/services#ai"
+    className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
+    aria-label="AI services"
+  >
+    AI services
+    <ArrowRight className="w-4 h-4" />
+  </Link>
+
+  {/* --- FIX: Replaced 'secondaryBtn' with explicit theme-compatible classes --- */}
+  <Link
+    href="/contact"
+    className="
+      inline-flex items-center justify-center px-6 py-3 rounded-full 
+      text-sm font-semibold transition
+      w-full sm:w-auto
+      bg-white text-slate-900 border border-slate-200 hover:bg-slate-50
+      dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-300
+    "
+    aria-label="Prototype with us"
+  >
+    Prototype with us
+  </Link>
+</div>
           </motion.div>
 
           <motion.div {...(fadeUp ? fadeUp() : {})} className="order-1 md:order-2 rounded-2xl overflow-hidden">
@@ -2237,7 +2290,7 @@ export default function EscStackLanding() {
               are built into every release.
             </p>
 
-            <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            {/* <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
               <Link
                 href="/services#cloud"
                 className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
@@ -2254,7 +2307,33 @@ export default function EscStackLanding() {
               >
                 Talk to an architect
               </Link>
-            </div>
+            </div> */}
+            <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+  <Link
+    href="/services#cloud"
+    className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
+    aria-label="See capabilities"
+  >
+    See capabilities
+    <ArrowRight className="w-4 h-4" />
+  </Link>
+
+  {/* --- FIX: Replaced 'secondaryBtn' with explicit theme-compatible classes --- */}
+  <Link
+    href="/contact"
+    className="
+      inline-flex items-center justify-center px-6 py-3 rounded-full 
+      text-sm font-semibold transition
+      w-full sm:w-auto
+      bg-white text-slate-900 border border-slate-200 hover:bg-slate-50
+      dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-300
+    "
+    aria-label="Talk to an architect"
+  >
+    Talk to an architect
+  </Link>
+</div>
           </motion.div>
         </div>
 
@@ -2264,7 +2343,7 @@ export default function EscStackLanding() {
             Ready to build? Our senior pods design, ship and operate production software — let’s discuss your roadmap.
           </p>
 
-          <div className="flex items-center justify-center gap-3">
+          {/* <div className="flex items-center justify-center gap-3">
             <Link
               href="/contact"
               className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
@@ -2281,7 +2360,46 @@ export default function EscStackLanding() {
             >
               View work
             </Link>
-          </div>
+          </div> */}
+
+          {/* --- UPDATED SNIPPET --- */}
+
+{/* FIX 1: Changed 'flex' to 'flex-col sm:flex-row'.
+  This stacks the buttons vertically on mobile screens (w-full)
+  and places them side-by-side on screens 'sm' and larger (w-auto).
+*/}
+<div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+  <Link
+    href="/contact"
+    className={`${primaryBtn} ${primaryGradient} w-full sm:w-auto`}
+    aria-label="Start a project"
+  >
+    Start a project
+    <ArrowRight className="w-4 h-4" />
+  </Link>
+
+  {/* FIX 2: Rebuilt the secondary button classes for responsiveness and theme-compatible styling.
+    - Removed 'hidden sm:inline-flex' and added 'w-full sm:w-auto' to match the primary button.
+    - Removed the base 'secondaryBtn' variable to apply consistent padding ('px-6 py-3') and 'justify-center'.
+    - Added 'bg-white' and 'dark:bg-gray-800' for the theme-compatible backgrounds.
+    - Added explicit 'border-slate-200' and 'dark:border-gray-700'.
+    - Added 'hover:bg-slate-50' and 'dark:hover:bg-gray-700' for hover states.
+  */}
+  <Link
+    href="/work"
+    className="
+      inline-flex items-center justify-center gap-3 px-6 py-3 rounded-full 
+      text-sm font-semibold transition
+      w-full sm:w-auto
+      bg-white text-slate-900 border border-slate-200 hover:bg-slate-50
+      dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-300
+    "
+    aria-label="View work"
+  >
+    View work
+  </Link>
+</div>
         </div>
       </section>
 
