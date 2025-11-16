@@ -235,7 +235,7 @@ export default function FAQPage() {
             <Button
               asChild
               variant="outline"
-              className="flex-1 rounded-xl border-white text-white hover:bg-white/10 hover:text-white font-semibold transition-all duration-200 hover:scale-105"
+              className="flex-1 rounded-xl border-white bg-white/10 text-white hover:bg-white hover:text-blue-600 font-semibold transition-all duration-200 hover:scale-105"
               size="lg"
             >
               <a

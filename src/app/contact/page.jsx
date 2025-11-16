@@ -1735,10 +1735,10 @@ export default function ContactPage() {
             Need More Information?
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
-            Explore our FAQs or schedule a personalized consultation with our
-            experts.
+            Have questions? Find quick answers in our comprehensive FAQ section
+            or get personalized guidance from our experts.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex justify-center">
             <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }}>
               <Link href="/faq" passHref>
                 <Button
@@ -1750,15 +1750,6 @@ export default function ContactPage() {
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </Link>
-            </motion.div>
-            <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-              >
-                Schedule a Call
-                <Calendar className="ml-2 w-4 h-4" />
-              </Button>
             </motion.div>
           </div>
         </motion.div>
