@@ -203,19 +203,21 @@ export default function FAQPage() {
 
       {/* Enhanced Floating CTA */}
       <motion.div
-        className="fixed bottom-6 right-6 left-6 sm:left-auto sm:max-w-md w-auto z-10"
+        className="fixed bottom-4 right-4 left-4 sm:bottom-6 sm:right-6 sm:left-auto sm:max-w-md z-10 max-w-[calc(100vw-2rem)]"
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ delay: 0.8, duration: 0.5 }}
         whileHover={{ scale: 1.02 }}
       >
-        <Card className="p-6 shadow-2xl border border-blue-200 dark:border-blue-800 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl">
-          <div className="flex items-start gap-4 mb-4">
-            <div className="bg-white/20 p-2 rounded-lg">
-              <HelpCircle className="h-6 w-6" />
+        <Card className="p-4 sm:p-6 shadow-2xl border border-blue-200 dark:border-blue-800 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl sm:rounded-2xl mx-auto">
+          <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-4">
+            <div className="bg-white/20 p-2 rounded-lg shrink-0">
+              <HelpCircle className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <div className="flex-1">
-              <h3 className="text-xl font-bold mb-2">Still need help?</h3>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-2">
+                Still need help?
+              </h3>
               <p className="text-blue-100 text-sm leading-relaxed">
                 Our support team is here to help you get the answers you need.
                 We typically respond within 1-2 business hours.
@@ -225,7 +227,7 @@ export default function FAQPage() {
           <div className="flex flex-col sm:flex-row gap-3">
             <Button
               asChild
-              className="flex-1 rounded-xl bg-white text-blue-600 hover:bg-gray-50 font-semibold shadow-lg transition-all duration-200 hover:scale-105"
+              className="flex-1 rounded-lg sm:rounded-xl bg-white text-blue-600 hover:bg-gray-50 font-semibold shadow-lg transition-all duration-200 hover:scale-105 py-3 sm:py-2 text-base"
               size="lg"
             >
               <a href="/contact" className="flex items-center justify-center">
@@ -235,7 +237,7 @@ export default function FAQPage() {
             <Button
               asChild
               variant="outline"
-              className="flex-1 rounded-xl border-white bg-white/10 text-white hover:bg-white hover:text-blue-600 font-semibold transition-all duration-200 hover:scale-105"
+              className="flex-1 rounded-lg sm:rounded-xl border-white bg-white/10 text-white hover:bg-white hover:text-blue-600 font-semibold transition-all duration-200 hover:scale-105 py-3 sm:py-2 text-base"
               size="lg"
             >
               <a
