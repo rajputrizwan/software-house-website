@@ -39,6 +39,8 @@ import {
   Cpu,
   CheckCircle,
   Award,
+  Mail,
+  X,
 } from "lucide-react";
 
 // Services Data
@@ -434,6 +436,61 @@ const tabServices = [
   },
 ];
 
+// Email Confirmation Popup Component
+const EmailConfirmationPopup = ({ isOpen, onClose, type = "success" }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.8, y: -20 }}
+        className="bg-white dark:bg-gray-800 rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl"
+      >
+        <div className="text-center">
+          {/* Icon */}
+          <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            {type === "success" ? (
+              <Check className="w-10 h-10 text-white" />
+            ) : (
+              <Mail className="w-10 h-10 text-white" />
+            )}
+          </div>
+
+          {/* Title */}
+          <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            {type === "success" ? "Email Sent!" : "Check Your Email"}
+          </h3>
+
+          {/* Message */}
+          <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+            {type === "success"
+              ? "Thank you for your interest! We've sent a confirmation email and will get back to you within 24 hours."
+              : "Please check your inbox for a confirmation email. If you don't see it, check your spam folder."}
+          </p>
+
+          {/* Button */}
+          <Button
+            onClick={onClose}
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-2xl font-semibold"
+          >
+            Got It!
+          </Button>
+        </div>
+
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+        >
+          <X className="w-6 h-6" />
+        </button>
+      </motion.div>
+    </div>
+  );
+};
+
 export default function ModernServicesPage() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [activeTab, setActiveTab] = useState("core-dev");
@@ -447,6 +504,10 @@ export default function ModernServicesPage() {
   const [loading, setLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [emailPopup, setEmailPopup] = useState({
+    isOpen: false,
+    type: "success",
+  });
   const sectionRef = useRef(null);
 
   // Intersection Observer for animations
@@ -485,13 +546,24 @@ export default function ModernServicesPage() {
     );
   };
 
+  // Navigation functions
+  const navigateToContact = () => {
+    // Replace with your actual contact page route
+    window.location.href = "/contact";
+  };
+
+  const navigateToWork = () => {
+    // Replace with your actual work/demo page route
+    window.location.href = "/work";
+  };
+
   // ✅ UPDATED: Backend integration for sending emails
   const handleChoosePlan = (plan, service) => {
     setSelectedPlan({ ...plan, service: service.title });
     setOpen(true);
   };
 
-  // ✅ UPDATED: Actual backend call instead of simulation
+  // ✅ UPDATED: Actual backend call with Lucide popup confirmation
   const handleSend = async () => {
     if (!formData.email || !formData.name) {
       alert("⚠️ Please fill in your name and email.");
@@ -507,15 +579,15 @@ export default function ModernServicesPage() {
       });
 
       if (res.ok) {
-        alert("✅ Confirmation email sent! Please check your inbox.");
+        setEmailPopup({ isOpen: true, type: "success" });
         setOpen(false);
         setFormData({ name: "", email: "", details: "" });
       } else {
-        alert("❌ Failed to send email. Try again later.");
+        setEmailPopup({ isOpen: true, type: "check" });
       }
     } catch (err) {
       console.error(err);
-      alert("⚠️ Error sending email.");
+      setEmailPopup({ isOpen: true, type: "check" });
     }
     setLoading(false);
   };
@@ -544,6 +616,13 @@ export default function ModernServicesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900">
+      {/* Email Confirmation Popup */}
+      <EmailConfirmationPopup
+        isOpen={emailPopup.isOpen}
+        onClose={() => setEmailPopup({ ...emailPopup, isOpen: false })}
+        type={emailPopup.type}
+      />
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Image Background */}
@@ -588,6 +667,7 @@ export default function ModernServicesPage() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={navigateToContact}
               className="group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center gap-3"
             >
               Start Your Project
@@ -597,6 +677,7 @@ export default function ModernServicesPage() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={navigateToWork}
               className="group border-2 border-white text-white px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center gap-3"
             >
               <Play className="w-5 h-5" />
@@ -800,7 +881,7 @@ export default function ModernServicesPage() {
                                   <span className="relative z-10">
                                     {plan.id === "custom"
                                       ? "Contact Sales"
-                                      : "Get Started"}
+                                      : "Contact Us"}
                                   </span>
                                   <ArrowRight className="ml-2 w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
                                   <motion.span
@@ -1026,23 +1107,16 @@ export default function ModernServicesPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              className="flex justify-center"
             >
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={navigateToContact}
                 className="bg-white text-blue-600 px-8 py-4 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-3"
               >
                 <Send className="w-5 h-5" />
                 Get Started Today
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300"
-              >
-                Schedule a Call
               </motion.button>
             </motion.div>
           </motion.div>
