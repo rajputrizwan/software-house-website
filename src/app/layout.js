@@ -82,6 +82,7 @@ import Footer from "../components/Footer";
 import ThemeBodyWrapper from "../components/ThemeBodyWrapper";
 import ClientLayoutWrapper from "../components/ClientLayoutWrapper";
 import { ThemeProvider } from "next-themes";
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({
   variable: "--font-sans-stack",
