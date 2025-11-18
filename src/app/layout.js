@@ -34,7 +34,11 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
       // className="scroll-smooth"
     >
-      <head />
+      <head
+      
+      >
+        <meta name="google-site-verification" content="jnByv2oanpnLvcEMWBV4H0eoPG19XmodKZipRmVK0Nc" />
+      </head>
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
       >
