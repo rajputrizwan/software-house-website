@@ -23,8 +23,15 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata = {
-  title: "EscStack",
-  description: "Modern tech solutions",
+  title: {
+    default: 'EscStack | Enterprise Software Development & AI Solutions',
+    template: '%s | escStack Software House',
+  },
+  description: 'Build intelligent, scalable software with senior-only teams. Specialized in Next.js, AI/LLM integration, and SOC2-ready cloud infrastructure.',
+  keywords: ['Software House', 'Next.js Developers', 'AI Engineering', 'SOC2 Software', 'escStack'],
+  alternates: {
+    canonical: 'https://www.escstack.site',
+  },
 };
 
 export default function RootLayout({ children }) {
