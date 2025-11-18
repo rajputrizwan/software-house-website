@@ -229,16 +229,16 @@ export default function Footer() {
         © {new Date().getFullYear()} EscStack. All rights reserved.
         <div className="mt-2 flex justify-center space-x-6 text-xs">
           <Link
-            href="/privacy"
+            href="/privacy-policy"
             className="hover:text-blue-500 transition-colors"
           >
             Privacy Policy
           </Link>
-          <Link href="/terms" className="hover:text-blue-500 transition-colors">
+          <Link href="/terms-of-service" className="hover:text-blue-500 transition-colors">
             Terms of Service
           </Link>
           <Link
-            href="/cookies"
+            href="/cookie-policy"
             className="hover:text-blue-500 transition-colors"
           >
             Cookie Policy

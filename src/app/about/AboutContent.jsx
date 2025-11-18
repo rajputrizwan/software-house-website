@@ -67,10 +67,10 @@ function CountUpAnimation({ end, suffix, duration = 2.5 }) {
   );
 }
 
-export default function AboutUs() {
+export default   function AboutUs() {
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredTeamMember, setHoveredTeamMember] = useState(null);
-
+ 
   const sectionRefs = {
     mission: useRef(null),
     team: useRef(null),

@@ -104,7 +104,7 @@ export const metadata = {
   // Dynamic Title Strategy: "Brand | Keywords"
   title: {
     default: 'EscStack | Enterprise Software Development & AI Solutions',
-    template: '%s | EscStack Software House', 
+    template: '%s ',  //| EscStack Software House
   },
   
   // The "Click-Magnet" Description

@@ -1,4 +1,5 @@
 // src/app/about/page.jsx
+import { delay } from 'framer-motion';
 import AboutContent from './AboutContent';
 
 /** @type {import("next").Metadata} */
@@ -8,7 +9,8 @@ export const metadata = {
   // You can add openGraph images here too!
 };
 
-export default function Page() {
+export default  function Page() {
+
   return (
     <>
       <AboutContent />
