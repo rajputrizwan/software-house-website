@@ -3,8 +3,8 @@
 import { delay } from "framer-motion";
 import LandingPage from "../components/LandingPage";
 
-export default async function Home() {
-   await delay(1000)
+export default  function Home() {
+  
   return (
     <section>
       <LandingPage />
