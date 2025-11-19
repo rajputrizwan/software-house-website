@@ -1,8 +1,16 @@
 import LegalPageWrapper from '@/components/LegalPageWrapper';
 
 export const metadata = {
-  title: 'Cookie Policy',
-  description: 'Information about how EscStack uses cookies.',
+  title: 'Cookie Policy', // Becomes: Cookie Policy | EscStack Software House
+  description: 'How EscStack uses cookies to improve user experience, analyze site performance, and ensure secure authentication. Manage your tracking preferences.',
+  keywords: [
+    'Cookie Policy', 'Website Tracking', 'User Experience', 
+    'Analytics Cookies', 'GDPR Cookies', 'Browser Preferences', 'Security Tokens'
+  ],
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function CookiePolicy() {

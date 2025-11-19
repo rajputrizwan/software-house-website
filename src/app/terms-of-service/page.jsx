@@ -1,8 +1,16 @@
 import LegalPageWrapper from '@/components/LegalPageWrapper';
 
 export const metadata = {
-  title: 'Terms of Service',
-  description: 'The rules and agreements for using EscStack services.',
+  title: 'Terms of Service', // Becomes: Terms of Service | EscStack Software House
+  description: 'Read the EscStack Terms of Service. Clear guidelines on Intellectual Property (IP) ownership, software delivery milestones, and service agreements.',
+  keywords: [
+    'Terms of Service', 'Master Services Agreement', 'IP Ownership', 
+    'Software Contract Terms', 'Liability Disclaimer', 'EscStack Legal', 'SaaS Agreements'
+  ],
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function TermsOfService() {

@@ -1,10 +1,17 @@
 import LegalPageWrapper from '@/components/LegalPageWrapper';
 
 export const metadata = {
-  title: 'Privacy Policy',
-  description: 'How EscStack collects, uses, and protects your data.',
+  title: 'Privacy Policy', // Becomes: Privacy Policy | EscStack Software House
+  description: 'EscStack is committed to protecting client data, intellectual property, and AI training datasets. Read our full data protection and confidentiality policy.',
+  keywords: [
+    'Privacy Policy', 'Data Protection', 'Client Confidentiality', 
+    'GDPR Compliance', 'AI Data Security', 'Software House Privacy', 'NDA Protocols'
+  ],
+  robots: {
+    index: true, // Legal pages MUST be indexed to build trust
+    follow: true,
+  },
 };
-
 export default function PrivacyPolicy() {
   return (
     <LegalPageWrapper title="Privacy Policy" date="November 18, 2025">
